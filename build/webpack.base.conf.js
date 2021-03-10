@@ -80,7 +80,8 @@ module.exports = {
                     },
                     postLoaders: {
                         html: 'babel-loader'
-                    }
+                    },
+                    
                 }
             },
             {
@@ -100,11 +101,27 @@ module.exports = {
             },
             {
                 test: /\.less$/,
-                use: [
-                    devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
-                    'css-loader',
-                    'less-loader'
-                ]
+                use: [{
+                    loader: 'style-loader',
+                  },{
+                    loader: 'css-loader', // translates CSS into CommonJS
+                  }, {
+                      loader: 'less-loader',
+                      options: {
+                        // antd 的样式使用了 Less 作为开发语言，
+                        // 并定义了一系列全局/组件的样式变量，
+                        // 你可以根据需求进行相应调整。
+                        // https://github.com/vueComponent/ant-design-vue/blob/master/components/style/themes/default.less
+                        modifyVars: {
+                            'primary-color': '#CD6FA2',
+                            'link-color': '#CD6FA2',
+                            'border-radius-base': '2px',
+                        },
+                        javascriptEnabled: true
+                      
+                  },
+                    
+                  }]
             },
             {
                 test: /\.styl$/,

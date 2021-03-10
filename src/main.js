@@ -1,6 +1,10 @@
 import Vue from 'vue';
 import App from './App';
 
+import {Button} from 'ant-design-vue';
+// import 'ant-design-vue/dist/antd.css';
+
+Vue.use(Button)
 
 new Vue({
     el: '#app',
