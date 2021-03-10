@@ -1,6 +1,7 @@
 # NMMS_front
 
-> The front for nmms
+> The front for Natatorium Member Manage System
+> 游泳馆会员管理系统界面
 
 ## Build Setup
 
