@@ -7,9 +7,9 @@
 
 ``` bash
 # install dependencies
-npm install
+cnpm install
 
-# serve with hot reload at localhost:8080
+# serve with hot reload at http://127.0.0.1:8808
 npm run dev
 
 # build for production with minification

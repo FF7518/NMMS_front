@@ -1,9 +1,6 @@
 <template>
   <div id="app">
-    {{hello}}
-    <br>
-    <a-button type='primary'>111111</a-button>
-    <!-- <router-view /> -->
+    <router-view />
   </div>
 </template>
 
