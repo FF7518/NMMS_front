@@ -12,6 +12,13 @@ const App = () =>
     import ("@/App")
 const Dashboard= () =>
     import ('@/view/Dashboard')
+const MainPage = () =>
+    import ('@/view/MainPage')
+
+const CardSale = () =>
+    import ("@/components/CardSale")
+const MemberManage = () =>
+    import ("@/components/MemberManage")
 
 
 
@@ -31,6 +38,24 @@ const router = new Router({
             name: "dashboard",
             component: Dashboard,
             meta: {},
+            children: [
+                {
+                    path: "/cardsale",
+                    name: "cardsale",
+                    component: CardSale,
+                    meta: {},
+                },
+                {
+                    path: "/membermanage",
+                    name: "membermanage",
+                    component: MemberManage,
+                    meta: {},
+                },
+                {
+                    path: "/",
+                    component: MainPage,
+                }
+            ],
         },
         {
             path: "*",

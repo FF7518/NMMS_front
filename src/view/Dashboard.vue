@@ -6,10 +6,16 @@
         <a-menu-item key="1">
           <a-icon type="credit-card" />
           <span>会员卡管理</span>
+          <router-link :to="{path:'/cardsale'}">
+            
+          </router-link>
         </a-menu-item>
         <a-menu-item key="2">
           <a-icon type="user" />
           <span>用户管理</span>
+          <router-link :to="{path:'/membermanage'}">
+          
+          </router-link>
         </a-menu-item>
         <a-sub-menu key="sub1">
           <span slot="title"><a-icon type="user" /><span>User</span></span>
@@ -36,6 +42,11 @@
           <a-icon type="file" />
           <span>File</span>
         </a-menu-item>
+        <a-menu-item key="10">
+          <a-icon type="home" />
+          <span>回到主界面</span>
+          <router-link :to="{path:'/dashboard'}"></router-link>
+        </a-menu-item>
       </a-menu>
     </a-layout-sider>
     <a-layout>
@@ -46,22 +57,30 @@
           <a-breadcrumb-item>Bill</a-breadcrumb-item>
         </a-breadcrumb>
         <div :style="{ padding: '24px', background: '#fff', minHeight: '360px' }">
-          Bill is a cat.
+          <!-- <card-sale /> -->
+          <div id="content">
+            <router-view />
+          </div>
         </div>
       </a-layout-content>
       <a-layout-footer style="text-align: center">
-        Ant Design ©2018 Created by Ant UED
+        NMMS ©2021 Created by FF7518
       </a-layout-footer>
     </a-layout>
   </a-layout>
 </template>
 <script>
+import CardSale from '@/components/CardSale.vue'
+
 export default {
   data() {
     return {
       collapsed: false,
     };
   },
+  components: {
+    'cardSale' : CardSale
+  }
 };
 </script>
 
