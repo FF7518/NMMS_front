@@ -1,95 +1,180 @@
 <template>
-  <a-form-model ref="ruleForm" :model="ruleForm" :rules="rules" v-bind="layout">
-    <a-form-model-item has-feedback label="Password" prop="pass">
-      <a-input v-model="ruleForm.pass" type="password" autocomplete="off" />
-    </a-form-model-item>
-    <a-form-model-item has-feedback label="Confirm" prop="checkPass">
-      <a-input v-model="ruleForm.checkPass" type="password" autocomplete="off" />
-    </a-form-model-item>
-    <a-form-model-item has-feedback label="Age" prop="age">
-      <a-input v-model.number="ruleForm.age" />
-    </a-form-model-item>
-    <a-form-model-item :wrapper-col="{ span: 14, offset: 4 }">
-      <a-button type="primary" @click="submitForm('ruleForm')">
-        Submit
-      </a-button>
-      <a-button style="margin-left: 10px" @click="resetForm('ruleForm')">
-        Reset
-      </a-button>
-    </a-form-model-item>
-  </a-form-model>
+  <a-table :columns="columns" :data-source="data" bordered>
+    <template
+      v-for="col in ['name', 'identity', 'phonenumber']"
+      :slot="col"
+      slot-scope="text, record"
+    >
+      <div :key="col">
+        <a-input
+          v-if="record.editable"
+          style="margin: -5px 0"
+          :value="text"
+          @change="e => handleChange(e.target.value, record.key, col)"
+        />
+        <template v-else>
+          {{ text }}
+        </template>
+      </div>
+    </template>
+    <template slot="operation" slot-scope="text, record">
+      <div class="editable-row-operations">
+        <span v-if="record.editable">
+          <a @click="() => save(record.key)">Save</a>
+          <a-popconfirm title="Sure to cancel?" @confirm="() => cancel(record.key)">
+            <a>Cancel</a>
+          </a-popconfirm>
+        </span>
+        <span v-else>
+          <a :disabled="editingKey !== ''" @click="() => edit(record.key)">Edit</a>
+        </span>
+      </div>
+    </template>
+    
+    
+  </a-table>
 </template>
 <script>
+const columns = [
+  {
+    title: 'ID',
+    dataIndex: 'mid',
+    with: '10%',
+    scopedSlots: {customRender: 'mid'}
+  },
+  {
+    title: '姓名',
+    dataIndex: 'name',
+    width: '25%',
+    scopedSlots: { customRender: 'name' },
+  },
+  {
+    title: '身份证号',
+    dataIndex: 'identity',
+    width: '15%',
+    scopedSlots: { customRender: 'identity' },
+  },
+  {
+    title: '联系电话',
+    dataIndex: 'phonenumber',
+    width: '40%',
+    scopedSlots: { customRender: 'phonenumber' },
+  },
+  {
+    title: '操作',
+    dataIndex: 'operation',
+    scopedSlots: { customRender: 'operation' },
+  },
+];
+
+// const innerColumns = [
+//   {
+//     title: '会员卡卡号',
+//     dataIndex: 'cid',
+//     key: 'cid',
+//   },
+//   {
+//     title: '余额',
+//     dataIndex: 'amount',
+//     key: 'amount',
+//   },
+//   {
+//     title: '折扣',
+//     dataIndex: 'discount',
+//     key: 'discount',
+//   },
+//   {
+//     title: '类型',
+//     dataIndex: 'type',
+//     key: 'type',
+//   },
+//   {
+//     title: '状态',
+//     dataIndex: 'status',
+//     key: 'status',
+//   }
+// ]
+
+const data = [];
+for (let i = 0; i < 100; i++) {
+  data.push({
+    key: i.toString(),
+    mid: i,
+    name: `Edrward ${i}`,
+    identity: 32,
+    phonenumber: `London Park no. ${i}`,
+  });
+}
+
+// const innnerData = [];
+// for (let i = 0; i < 3; ++i) {
+//   innnerData.push({
+//     key: i,
+//     cid: i,
+//     amount: 100.00,
+//     discount: 0.80,
+//     type: '储值卡',
+//     status: '正常',
+//   })
+// }
+
 export default {
   data() {
-    let checkPending;
-    let checkAge = (rule, value, callback) => {
-      clearTimeout(checkPending);
-      if (!value) {
-        return callback(new Error('Please input the age'));
-      }
-      checkPending = setTimeout(() => {
-        if (!Number.isInteger(value)) {
-          callback(new Error('Please input digits'));
-        } else {
-          if (value < 18) {
-            callback(new Error('Age must be greater than 18'));
-          } else {
-            callback();
-          }
-        }
-      }, 1000);
-    };
-    let validatePass = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('Please input the password'));
-      } else {
-        if (this.ruleForm.checkPass !== '') {
-          this.$refs.ruleForm.validateField('checkPass');
-        }
-        callback();
-      }
-    };
-    let validatePass2 = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('Please input the password again'));
-      } else if (value !== this.ruleForm.pass) {
-        callback(new Error("Two inputs don't match!"));
-      } else {
-        callback();
-      }
-    };
+    this.cacheData = data.map(item => ({ ...item }));
     return {
-      ruleForm: {
-        pass: '',
-        checkPass: '',
-        age: '',
-      },
-      rules: {
-        pass: [{ validator: validatePass, trigger: 'change' }],
-        checkPass: [{ validator: validatePass2, trigger: 'change' }],
-        age: [{ validator: checkAge, trigger: 'change' }],
-      },
-      layout: {
-        labelCol: { span: 4 },
-        wrapperCol: { span: 14 },
-      },
+      data,
+      columns,
+      // innerColumns,
+      // innnerData,
+      editingKey: '',
     };
   },
   methods: {
-    submitForm(formName) {
-      this.$refs[formName].validate(valid => {
-        if (valid) {
-          alert('submit!');
-        } else {
-          console.log('error submit!!');
-          return false;
-        }
-      });
+    handleChange(value, key, column) {
+      const newData = [...this.data];
+      const target = newData.filter(item => key === item.key)[0];
+      if (target) {
+        target[column] = value;
+        this.data = newData;
+      }
     },
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
+    edit(key) {
+      const newData = [...this.data];
+      const target = newData.filter(item => key === item.key)[0];
+      this.editingKey = key;
+      if (target) {
+        target.editable = true;
+        this.data = newData;
+      }
+    },
+    save(key) {
+      const newData = [...this.data];
+      const newCacheData = [...this.cacheData];
+      const target = newData.filter(item => key === item.key)[0];
+      const targetCache = newCacheData.filter(item => key === item.key)[0];
+      if (target && targetCache) {
+        delete target.editable;
+        this.data = newData;
+        Object.assign(targetCache, target);
+        this.cacheData = newCacheData;
+      }
+      this.editingKey = '';
+    },
+    cancel(key) {
+      const newData = [...this.data];
+      const target = newData.filter(item => key === item.key)[0];
+      this.editingKey = '';
+      if (target) {
+        Object.assign(target, this.cacheData.filter(item => key === item.key)[0]);
+        delete target.editable;
+        this.data = newData;
+      }
     },
   },
 };
 </script>
+<style scoped>
+.editable-row-operations a {
+  margin-right: 8px;
+}
+</style>

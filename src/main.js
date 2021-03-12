@@ -20,7 +20,8 @@ import {Button,
         Switch,
         DatePicker,
         Carousel,
-
+        Table,
+        Popconfirm,
     } from 'ant-design-vue';
 // import 'ant-design-vue/dist/antd.css';
 
@@ -41,6 +42,8 @@ Vue.use(Select)
 Vue.use(Switch)
 Vue.use(DatePicker)
 Vue.use(Carousel)
+Vue.use(Table)
+Vue.use(Popconfirm)
 
 new Vue({
     el: '#app',
