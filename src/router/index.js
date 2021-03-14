@@ -8,17 +8,23 @@ Router.prototype.push = function push(location) {
 }
 
 Vue.use(Router)
+// view
 const App = () =>
     import ("@/App")
 const Dashboard= () =>
     import ('@/view/Dashboard')
 const MainPage = () =>
     import ('@/view/MainPage')
+const CardManage = () =>
+    import ("@/view/CardManage")
 
-const CardSale = () =>
-    import ("@/components/CardSale")
+// components
 const MemberManage = () =>
     import ("@/components/MemberManage")
+const CmSale = () =>
+    import ('@/components/CmSale')
+const CmBan = () =>
+    import ('@/components/CmBan')
 
 
 
@@ -40,21 +46,32 @@ const router = new Router({
             meta: {},
             children: [
                 {
-                    path: "/cardsale",
-                    name: "cardsale",
-                    component: CardSale,
-                    meta: {},
+                    path: "/",
+                    component: MainPage,
+                    
                 },
                 {
                     path: "/membermanage",
                     name: "membermanage",
                     component: MemberManage,
                     meta: {},
+                    
+                },
+            ],
+        },
+        {
+            path: "/cardmanage",
+            name: "cardmanage",
+            component: CardManage,
+            children: [
+                {
+                    path: "/cardsale",
+                    component: CmSale,
                 },
                 {
-                    path: "/",
-                    component: MainPage,
-                }
+                    path: "/cardban",
+                    component: CmBan,
+                },
             ],
         },
         {

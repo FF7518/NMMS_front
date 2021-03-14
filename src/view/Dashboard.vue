@@ -3,13 +3,26 @@
     <a-layout-sider v-model="collapsed" collapsible theme="dark">
       <div class="logo" />
       <a-menu theme="dark" :default-selected-keys="['1']" mode="inline">
-        <a-menu-item key="1">
-          <a-icon type="credit-card" />
-          <span>会员卡管理</span>
-          <router-link :to="{path:'/cardsale'}">
-            
-          </router-link>
-        </a-menu-item>
+        <a-sub-menu key="sub1" >
+          <span slot="title">
+            <a-icon type="credit-card" />
+            <span>会员卡管理</span>
+          </span>
+          <a-menu-item key="11">
+            <span>售卡管理</span>
+            <router-link :to="{path: '/cardsale'}"></router-link>
+          </a-menu-item>
+          <a-menu-item key="12">
+            <span>卡片禁用</span>
+            <router-link :to="{path: '/cardban'}"></router-link>
+          </a-menu-item>
+          <a-menu-item key="13">
+            <span>退卡管理</span>
+          </a-menu-item>
+          <a-menu-item key="14">
+            <span>存款管理</span>
+          </a-menu-item>
+        </a-sub-menu>
         <a-menu-item key="2">
           <a-icon type="user" />
           <span>用户管理</span>
@@ -17,7 +30,7 @@
           
           </router-link>
         </a-menu-item>
-        <a-sub-menu key="sub1">
+        <a-sub-menu key="sub2">
           <span slot="title"><a-icon type="user" /><span>User</span></span>
           <a-menu-item key="3">
             Tom
@@ -29,7 +42,7 @@
             Alex
           </a-menu-item>
         </a-sub-menu>
-        <a-sub-menu key="sub2">
+        <a-sub-menu key="sub3">
           <span slot="title"><a-icon type="team" /><span>Team</span></span>
           <a-menu-item key="6">
             Team 1
@@ -70,7 +83,7 @@
   </a-layout>
 </template>
 <script>
-import CardSale from '@/components/CardSale.vue'
+// import CardSale from '@/components/CardSale.vue'
 
 export default {
   data() {
@@ -79,7 +92,7 @@ export default {
     };
   },
   components: {
-    'cardSale' : CardSale
+    // 'cardSale' : CardSale
   }
 };
 </script>
