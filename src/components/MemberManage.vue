@@ -1,39 +1,51 @@
 <template>
-  <a-table :columns="columns" :data-source="data" bordered>
-    <template
-      v-for="col in ['name', 'identity', 'phonenumber']"
-      :slot="col"
-      slot-scope="text, record"
-    >
-      <div :key="col">
-        <a-input
-          v-if="record.editable"
-          style="margin: -5px 0"
-          :value="text"
-          @change="e => handleChange(e.target.value, record.key, col)"
-        />
-        <template v-else>
-          {{ text }}
-        </template>
-      </div>
-    </template>
-    <template slot="operation" slot-scope="text, record">
-      <div class="editable-row-operations">
-        <span v-if="record.editable">
-          <a @click="() => save(record.key)">Save</a>
-          <a-popconfirm title="Sure to cancel?" @confirm="() => cancel(record.key)">
-            <a>Cancel</a>
-          </a-popconfirm>
-        </span>
-        <span v-else>
-          <a :disabled="editingKey !== ''" @click="() => edit(record.key)">Edit</a>
-        </span>
-      </div>
-    </template>
-    
-    
-  </a-table>
+<a-tabs default-active-key="1">
+  <a-tab-pane key="1" tab="用户列表">
+    <a-table :columns="columns" :data-source="data" bordered>
+      <template
+        v-for="col in ['name', 'identity', 'phonenumber']"
+        :slot="col"
+        slot-scope="text, record"
+      >
+        <div :key="col">
+          <a-input
+            v-if="record.editable"
+            style="margin: -5px 0"
+            :value="text"
+            @click="onEdit(text)"
+            @change="e => handleChange(e.target.value, record.key, col)"
+          />
+          <template  v-else>
+            {{ text }}
+          </template>
+        </div>
+      </template>
+      <template slot="operation" slot-scope="text, record">
+        <div class="editable-row-operations">
+          <span v-if="record.editable">
+            <a @click="() => save(record.key)">保存</a>
+            <a-popconfirm title="确定要取消吗？" @confirm="() => cancel(record.key)">
+              <a>取消</a>
+            </a-popconfirm>
+          </span>
+          <span v-else>
+            <a :disabled="editingKey !== ''" @click="() => edit(record.key)">修改</a>
+            <a :disabled="editingKey !== ''" @click="() => intoCard(record.key)">会员卡</a>
+          </span>
+        </div>
+      </template>
+
+      
+    </a-table>
+  </a-tab-pane>
+  <a-tab-pane key="2" tab="Tab 2">
+    Waiting to be added...
+  </a-tab-pane>
+  
+</a-tabs>
 </template>
+
+
 <script>
 const columns = [
   {
@@ -119,6 +131,9 @@ for (let i = 0; i < 100; i++) {
 // }
 
 export default {
+  components: { 
+
+  },
   data() {
     this.cacheData = data.map(item => ({ ...item }));
     return {
@@ -130,6 +145,11 @@ export default {
     };
   },
   methods: {
+    // test func -> looking at scope-slot
+    onEdit(value) {
+      alert(JSON.stringify(value))
+    },
+
     handleChange(value, key, column) {
       const newData = [...this.data];
       const target = newData.filter(item => key === item.key)[0];
@@ -170,6 +190,10 @@ export default {
         this.data = newData;
       }
     },
+    // 查看会员卡操作，进入另一个页面
+    intoCard(key) {
+      alert(JSON.stringify(key))
+    }
   },
 };
 </script>
