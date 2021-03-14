@@ -1,4 +1,5 @@
 <template>
+<div>
 <a-tabs default-active-key="1">
   <a-tab-pane key="1" tab="用户列表">
     <a-table :columns="columns" :data-source="data" bordered>
@@ -30,19 +31,30 @@
           </span>
           <span v-else>
             <a :disabled="editingKey !== ''" @click="() => edit(record.key)">修改</a>
-            <a :disabled="editingKey !== ''" @click="() => intoCard(record.key)">会员卡</a>
+            <a :disabled="editingKey !== ''" @click="() => {intoCard(record.key);showDrawer(record.key)}">会员卡</a>
           </span>
         </div>
       </template>
-
-      
     </a-table>
   </a-tab-pane>
   <a-tab-pane key="2" tab="Tab 2">
     Waiting to be added...
   </a-tab-pane>
   
+  
 </a-tabs>
+  <a-drawer
+        title="会员卡信息"
+        width="640"
+        placement="right"
+        :closable="false"
+        :visible="visible"
+        :after-visible-change="afterDrawerVisibleChange"
+        @close="onDrawerClose"
+  >
+    <p>1111</p>
+  </a-drawer>
+</div>
 </template>
 
 
@@ -142,6 +154,7 @@ export default {
       // innerColumns,
       // innnerData,
       editingKey: '',
+      visible: false,
     };
   },
   methods: {
@@ -192,8 +205,20 @@ export default {
     },
     // 查看会员卡操作，进入另一个页面
     intoCard(key) {
-      alert(JSON.stringify(key))
-    }
+      // alert(JSON.stringify(key))
+      console.log('intoCard',key)
+    },
+
+    // 抽屉
+    afterDrawerVisibleChange(val) {
+      console.log('visible',val)
+    },
+    showDrawer(key) {
+      this.visible = true
+    },
+    onDrawerClose() {
+      this.visible = false
+    },
   },
 };
 </script>

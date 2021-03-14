@@ -17,9 +17,9 @@ module.exports = {
         cssSourceMap: false,
         //开发环境配置端口
         siteConfig: {
-            publicPath: 'http://127.0.0.1:8801/',
+            publicPath: 'http://127.0.0.1:8808/',
             host: '127.0.0.1',
-            port: 8801
+            port: 8808
         }
     }
 }
