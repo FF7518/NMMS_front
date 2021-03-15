@@ -10,11 +10,11 @@
           </span>
           <a-menu-item key="11">
             <span>售卡管理</span>
-            <router-link :to="{path: '/cardsale'}"></router-link>
+            <router-link to="/cardmanage/cardsale"></router-link>
           </a-menu-item>
           <a-menu-item key="12">
             <span>卡片禁用</span>
-            <router-link :to="{path: '/cardban'}"></router-link>
+            <router-link to="/cardmanage/cardban"></router-link>
           </a-menu-item>
           <a-menu-item key="13">
             <span>退卡管理</span>
@@ -26,19 +26,17 @@
         <a-menu-item key="2">
           <a-icon type="user" />
           <span>用户管理</span>
-          <router-link :to="{path:'/membermanage'}">
-          
-          </router-link>
+          <router-link to="/dashboard/membermanage"></router-link>
         </a-menu-item>
         <a-sub-menu key="sub2">
-          <span slot="title"><a-icon type="user" /><span>User</span></span>
-          <a-menu-item key="3">
+          <span slot="title"><a-icon type="line-chart" /><span>消费管理</span></span>
+          <a-menu-item key="21">
             Tom
           </a-menu-item>
-          <a-menu-item key="4">
+          <a-menu-item key="22">
             Bill
           </a-menu-item>
-          <a-menu-item key="5">
+          <a-menu-item key="23">
             Alex
           </a-menu-item>
         </a-sub-menu>
@@ -58,16 +56,16 @@
         <a-menu-item key="10">
           <a-icon type="home" />
           <span>回到主界面</span>
-          <router-link :to="{path:'/dashboard'}"></router-link>
+          <router-link to="/dashboard/mainpage"></router-link>
         </a-menu-item>
       </a-menu>
     </a-layout-sider>
     <a-layout>
-      <a-layout-header style="background: #fff; padding: 0" />
+      <!-- <a-layout-header style="background: #fff; padding: 0" /> -->
       <a-layout-content style="margin: 0 16px">
         <a-breadcrumb style="margin: 16px 0">
-          <a-breadcrumb-item>User</a-breadcrumb-item>
-          <a-breadcrumb-item>Bill</a-breadcrumb-item>
+          <a-breadcrumb-item>A breadcrumb item 1</a-breadcrumb-item>
+          <a-breadcrumb-item>A breadcrumb item 2</a-breadcrumb-item>
         </a-breadcrumb>
         <div :style="{ padding: '24px', background: '#fff', minHeight: '360px' }">
           <!-- <card-sale /> -->

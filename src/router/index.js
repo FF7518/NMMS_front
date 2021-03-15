@@ -44,14 +44,14 @@ const router = new Router({
             name: "dashboard",
             component: Dashboard,
             meta: {},
+            redirect: "/dashboard/mainpage",
             children: [
                 {
-                    path: "/",
+                    path: "mainpage",
                     component: MainPage,
-                    
                 },
                 {
-                    path: "/membermanage",
+                    path: "membermanage",
                     name: "membermanage",
                     component: MemberManage,
                     meta: {},
@@ -65,11 +65,11 @@ const router = new Router({
             component: CardManage,
             children: [
                 {
-                    path: "/cardsale",
+                    path: "cardsale",
                     component: CmSale,
                 },
                 {
-                    path: "/cardban",
+                    path: "cardban",
                     component: CmBan,
                 },
             ],

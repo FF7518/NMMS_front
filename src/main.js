@@ -24,6 +24,7 @@ import {Button,
         Popconfirm,
         Tabs,
         Drawer,
+        Divider,
 
     } from 'ant-design-vue';
 // import 'ant-design-vue/dist/antd.css';
@@ -49,6 +50,7 @@ Vue.use(Table)
 Vue.use(Popconfirm)
 Vue.use(Tabs)
 Vue.use(Drawer)
+Vue.use(Divider)
 
 new Vue({
     el: '#app',
