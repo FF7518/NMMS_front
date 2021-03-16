@@ -25,6 +25,12 @@ import {Button,
         Tabs,
         Drawer,
         Divider,
+        List,
+        Avatar,
+        Spin,
+        Col,
+        Row,
+        Collapse,
 
     } from 'ant-design-vue';
 // import 'ant-design-vue/dist/antd.css';
@@ -51,6 +57,13 @@ Vue.use(Popconfirm)
 Vue.use(Tabs)
 Vue.use(Drawer)
 Vue.use(Divider)
+Vue.use(List)
+Vue.use(Avatar)
+Vue.use(Spin)
+Vue.use(Col)
+Vue.use(Row)
+Vue.use(Collapse)
+
 
 new Vue({
     el: '#app',

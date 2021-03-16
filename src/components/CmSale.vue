@@ -5,9 +5,7 @@
         <cm-sale-content />
       </div>
     </a-layout-content>
-    <a-layout-footer :style="{ textAlign: 'center' }">
-      Ant Design ©2018 Created by Ant UED
-    </a-layout-footer>
+    
   </a-layout>
 </template>
 
@@ -15,9 +13,10 @@
 import CmSaleContent from './CmSaleContent.vue'
 
 
+
 export default {
   components:{
-    CmSaleContent
+    CmSaleContent,
   },
   data(){
     return {
