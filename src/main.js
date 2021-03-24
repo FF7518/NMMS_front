@@ -31,6 +31,8 @@ import {Button,
         Col,
         Row,
         Collapse,
+        Card,
+        Descriptions,
 
     } from 'ant-design-vue';
 // import 'ant-design-vue/dist/antd.css';
@@ -63,6 +65,8 @@ Vue.use(Spin)
 Vue.use(Col)
 Vue.use(Row)
 Vue.use(Collapse)
+Vue.use(Card)
+Vue.use(Descriptions)
 
 
 new Vue({

@@ -13,14 +13,12 @@
             <router-link to="/cardmanage/cardsale"></router-link>
           </a-menu-item>
           <a-menu-item key="12">
-            <span>卡片禁用</span>
+            <span>卡片禁用/挂失/销毁</span>
             <router-link to="/cardmanage/cardban"></router-link>
           </a-menu-item>
           <a-menu-item key="13">
-            <span>退卡管理</span>
-          </a-menu-item>
-          <a-menu-item key="14">
             <span>存款管理</span>
+            <router-link to="/cardmanage/cardsave"></router-link>
           </a-menu-item>
         </a-sub-menu>
         <a-menu-item key="2">

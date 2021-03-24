@@ -25,6 +25,8 @@ const CmSale = () =>
     import ('@/components/CmSale')
 const CmBan = () =>
     import ('@/components/CmBan')
+const CmSave = () =>
+    import ('@/components/CmSave')
 
 
 
@@ -71,6 +73,10 @@ const router = new Router({
                 {
                     path: "cardban",
                     component: CmBan,
+                },
+                {
+                    path: "cardsave",
+                    component: CmSave,
                 },
             ],
         },

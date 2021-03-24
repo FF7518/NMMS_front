@@ -1,95 +1,49 @@
 <template>
-  <a-form-model ref="ruleForm" :model="ruleForm" :rules="rules" v-bind="layout">
-    <a-form-model-item has-feedback label="Password" prop="pass">
-      <a-input v-model="ruleForm.pass" type="password" autocomplete="off" />
-    </a-form-model-item>
-    <a-form-model-item has-feedback label="Confirm" prop="checkPass">
-      <a-input v-model="ruleForm.checkPass" type="password" autocomplete="off" />
-    </a-form-model-item>
-    <a-form-model-item has-feedback label="Age" prop="age">
-      <a-input v-model.number="ruleForm.age" />
-    </a-form-model-item>
-    <a-form-model-item :wrapper-col="{ span: 14, offset: 4 }">
-      <a-button type="primary" @click="submitForm('ruleForm')">
-        Submit
-      </a-button>
-      <a-button style="margin-left: 10px" @click="resetForm('ruleForm')">
-        Reset
-      </a-button>
-    </a-form-model-item>
-  </a-form-model>
+<div>
+
+  <!-- 查询获取相关的表 -->
+  <a-select
+    style="width: 200px"
+    placeholder="查询卡号"
+  >
+  </a-select>
+
+  <!-- 显示表的相关信息 -->
+  <a-descriptions title="会员卡信息">
+    <a-descriptions-item label="卡号">
+      12345
+    </a-descriptions-item>
+    <a-descriptions-item label="卡内余额">
+      385.24
+    </a-descriptions-item>
+    <a-descriptions-item label="卡类型">
+      折扣卡
+    </a-descriptions-item>
+    <a-descriptions-item label="卡折扣">
+      80%
+    </a-descriptions-item>
+    <a-descriptions-item label="卡状态">
+      正常
+    </a-descriptions-item>
+  </a-descriptions>
+
+  <!-- Ban的主要结构 -->
+  <div>
+    <a-select placehoder="选择停用类型" 
+    :style="{width:'120px', inline: true}">
+      <a-select-option value="guashi">挂失</a-select-option>
+      <a-select-option value="tingyong">停用</a-select-option>
+    </a-select>
+    <br>
+    停用原因：
+    <br>
+    <a-textarea 
+    :style="{width:'60%', inline:true}"
+    placeholder="Basic usage" :rows="4" />
+    <br>
+    <a-button :style="{}">提交</a-button>
+  </div>
+
+
+</div>
 </template>
-<script>
-export default {
-  data() {
-    let checkPending;
-    let checkAge = (rule, value, callback) => {
-      clearTimeout(checkPending);
-      if (!value) {
-        return callback(new Error('Please input the age'));
-      }
-      checkPending = setTimeout(() => {
-        if (!Number.isInteger(value)) {
-          callback(new Error('Please input digits'));
-        } else {
-          if (value < 18) {
-            callback(new Error('Age must be greater than 18'));
-          } else {
-            callback();
-          }
-        }
-      }, 1000);
-    };
-    let validatePass = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('Please input the password'));
-      } else {
-        if (this.ruleForm.checkPass !== '') {
-          this.$refs.ruleForm.validateField('checkPass');
-        }
-        callback();
-      }
-    };
-    let validatePass2 = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('Please input the password again'));
-      } else if (value !== this.ruleForm.pass) {
-        callback(new Error("Two inputs don't match!"));
-      } else {
-        callback();
-      }
-    };
-    return {
-      ruleForm: {
-        pass: '',
-        checkPass: '',
-        age: '',
-      },
-      rules: {
-        pass: [{ validator: validatePass, trigger: 'change' }],
-        checkPass: [{ validator: validatePass2, trigger: 'change' }],
-        age: [{ validator: checkAge, trigger: 'change' }],
-      },
-      layout: {
-        labelCol: { span: 4 },
-        wrapperCol: { span: 14 },
-      },
-    };
-  },
-  methods: {
-    submitForm(formName) {
-      this.$refs[formName].validate(valid => {
-        if (valid) {
-          alert('submit!');
-        } else {
-          console.log('error submit!!');
-          return false;
-        }
-      });
-    },
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
-    },
-  },
-};
-</script>

@@ -41,7 +41,6 @@ AppFunc--
 ​			|--CardManage 会员卡管理入口，跳转售卡界面，会员卡禁用界面（挂失和禁用），退卡管理界面，存款管理界面
 ​				|--CmSale 售卡界面
 ​				|--CmBan 禁用界面
-​				|--CmRefund 退卡界面
 ​				|--CmSave 存款界面
 
 ### 界面布局
@@ -64,7 +63,6 @@ graph LR
   DashBoard-->DataManage
   DashBoard-->CardManage-->CmSale
   CardManage-->CmBan
-  CardManage-->CmRefund
   CardManage-->CmSave
   
 ```
