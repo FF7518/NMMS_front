@@ -26,45 +26,30 @@
           <span>用户管理</span>
           <router-link to="/dashboard/membermanage"></router-link>
         </a-menu-item>
-        <a-sub-menu key="sub2">
-          <span slot="title"><a-icon type="line-chart" /><span>消费管理</span></span>
-          <a-menu-item key="21">
-            Tom
-          </a-menu-item>
-          <a-menu-item key="22">
-            Bill
-          </a-menu-item>
-          <a-menu-item key="23">
-            Alex
-          </a-menu-item>
-        </a-sub-menu>
-        <a-sub-menu key="sub3">
-          <span slot="title"><a-icon type="team" /><span>Team</span></span>
-          <a-menu-item key="6">
-            Team 1
-          </a-menu-item>
-          <a-menu-item key="8">
-            Team 2
-          </a-menu-item>
-        </a-sub-menu>
-        <a-menu-item key="9">
-          <a-icon type="file" />
-          <span>File</span>
+        <a-menu-item key="3">
+          <a-icon type="bar-chart" />
+          <span>消费管理</span>
+          <router-link to="/dashboard/financialmanage"></router-link>
         </a-menu-item>
-        <a-menu-item key="10">
+        <a-menu-item key="5">
           <a-icon type="home" />
           <span>回到主界面</span>
           <router-link to="/dashboard/mainpage"></router-link>
+        </a-menu-item>
+        <a-menu-item key="4">
+          <a-icon type="setting"/>
+          <span>系统管理</span>
+          <router-link to="/admin"></router-link>
         </a-menu-item>
       </a-menu>
     </a-layout-sider>
     <a-layout>
       <!-- <a-layout-header style="background: #fff; padding: 0" /> -->
       <a-layout-content style="margin: 0 16px">
-        <a-breadcrumb style="margin: 16px 0">
+        <!-- <a-breadcrumb style="margin: 16px 0">
           <a-breadcrumb-item>A breadcrumb item 1</a-breadcrumb-item>
           <a-breadcrumb-item>A breadcrumb item 2</a-breadcrumb-item>
-        </a-breadcrumb>
+        </a-breadcrumb> -->
         <div :style="{ padding: '24px', background: '#fff', minHeight: '360px' }">
           <!-- <card-sale /> -->
           <div id="content">

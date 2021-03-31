@@ -19,6 +19,8 @@ const CardManage = () =>
     import ("@/view/CardManage")
 
 // components
+const Admin = () =>
+    import ('@/components/Admin')
 const MemberManage = () =>
     import ("@/components/MemberManage")
 const CmSale = () =>
@@ -27,6 +29,8 @@ const CmBan = () =>
     import ('@/components/CmBan')
 const CmSave = () =>
     import ('@/components/CmSave')
+const FinancialManage = () =>
+    import ('@/components/FinancialManage')
 
 
 
@@ -40,6 +44,11 @@ const router = new Router({
             component: App,
             meta: {},
             redirect: "/dashboard",
+        },
+        {
+            path: "/admin",
+            name: "admin",
+            component: Admin,  
         },
         {
             path: "/dashboard",
@@ -58,6 +67,11 @@ const router = new Router({
                     component: MemberManage,
                     meta: {},
                     
+                },
+                {
+                    path: "financialmanage",
+                    name: "financialmanage",
+                    component: FinancialManage,
                 },
             ],
         },

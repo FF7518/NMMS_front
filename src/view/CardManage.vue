@@ -27,7 +27,7 @@
                   <a slot="actions" @click="onListMore">more</a>
                   <a-list-item-meta :description="item.description">
                     <a slot="title" :href="item.href">{{ item.title }}</a>
-                    <a-avatar slot="avatar" :src="item.avatar" />
+                    <!-- <a-avatar slot="avatar" :src="item.avatar" /> -->
                   </a-list-item-meta>
                   <div>{{ item.content }}</div>
                 </a-list-item>
@@ -47,18 +47,8 @@
 
 <script>
 
-const listData = []
-for (let i = 0; i < 23; i++) {
-  listData.push({
-    href: 'https://www.antdv.com/',
-    title: `ant design vue part ${i}`,
-    avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-    description:
-      'description',
-    content:
-      'content',
-  });
-}
+var listData = []
+
 
 export default {
   data() {
@@ -72,10 +62,38 @@ export default {
       },
     };
   },
+  created() {
+    this.getCardInfo()
+  },
   methods: {
     onListMore() {
       alert("你点击了！！")
     },
+    getCardInfo() {
+      this.baseAxios({
+        method: 'get',
+        url: '/card/get_card_info',
+        // params
+
+      }).then((response)=>{
+        this.listData = []
+        console.log(response.data.length)
+        // 同步到列表
+        var listLen = response.data.length
+        for(var i = 0; i < listLen; ++i) {
+          this.listData.push({
+            // href: 'https://www.antdv.com/',
+            title: `Item  ${i+1}`,
+            // avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+            description:
+              '信息',
+            content:
+              "卡号 "+response.data[i]['cid']+" 金额 "+response.data[i]['amount'],
+          });
+        }
+        console.log(this.listData)
+      })
+    }
   }
 };
 </script>

@@ -2,6 +2,8 @@ import Vue from 'vue';
 import App from './App';
 
 import router from './router';
+import axios from 'axios'
+import { baseAxios } from '@/network/axios'
 
 import {Button,
         Layout, 
@@ -33,6 +35,7 @@ import {Button,
         Collapse,
         Card,
         Descriptions,
+        message,
 
     } from 'ant-design-vue';
 // import 'ant-design-vue/dist/antd.css';
@@ -68,6 +71,11 @@ Vue.use(Collapse)
 Vue.use(Card)
 Vue.use(Descriptions)
 
+Vue.prototype.$bus = new Vue()
+Vue.prototype.$message = message
+
+Vue.prototype.baseAxios = baseAxios
+axios.defaults.withCredentials = true;
 
 new Vue({
     el: '#app',
