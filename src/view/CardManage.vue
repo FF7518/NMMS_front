@@ -21,17 +21,21 @@
               <a-input-search :style="{width:'120px', inline:true}">
 
               </a-input-search>
-              <a-list size="small" :pagination="pagination" :data-source="listData">
-                <div slot="footer"><b>ant design vue</b> footer part</div>
-                <a-list-item slot="renderItem" key="item.title" slot-scope="item">
-                  <a slot="actions" @click="onListMore">more</a>
-                  <a-list-item-meta :description="item.description">
-                    <a slot="title" :href="item.href">{{ item.title }}</a>
-                    <!-- <a-avatar slot="avatar" :src="item.avatar" /> -->
-                  </a-list-item-meta>
-                  <div>{{ item.content }}</div>
-                </a-list-item>
-              </a-list>
+              
+                <!-- table -->
+                <a-table :columns="columns" :data-source="listData" rowKey="cid">
+                  
+                  <template slot="operation" slot-scope="text, record, index">
+                    <div class="editable-row-operations">
+                      <span>
+                          <a @click="cardSelectHandle(text, record, index)">查看</a>
+                      </span>
+                    </div>
+                  </template>
+
+                </a-table>
+
+
             </a-col>
           </a-row>
           
@@ -47,12 +51,22 @@
 
 <script>
 
+// 设置会员卡表表头
+const columns = [
+  {title:'卡号', dataIndex:'cid', key: 'cid', scopedSlots:{customRender:'cid'}},
+  {title:'余额', dataIndex:'amount', key:'amount', scopedSlots:{customRender:'amount'}},
+  {title:'折扣', dataIndex:'discount', key:'discount', scopedSlots:{customRender:'discount'}},
+  {title:'种类', dataIndex:'type', key:'type', scopedSlots:{customRender:'type'}},
+  {title:'操作', dataIndex:'operation', scopedSlots:{customRender:'operation'}},
+]
+
 var listData = []
 
 
 export default {
   data() {
     return {
+      columns,
       listData: listData,
       pagination: {
         onChange: page => {
@@ -82,17 +96,17 @@ export default {
         var listLen = response.data.length
         for(var i = 0; i < listLen; ++i) {
           this.listData.push({
-            // href: 'https://www.antdv.com/',
-            title: `Item  ${i+1}`,
-            // avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-            description:
-              '信息',
-            content:
-              "卡号 "+response.data[i]['cid']+" 金额 "+response.data[i]['amount'],
+            cid: response.data[i]['cid'],
+            amount: response.data[i]['amount'],
+            discount: response.data[i]['discount'],
+            type: response.data[i]['type']
           });
         }
         console.log(this.listData)
       })
+    },
+    cardSelectHandle(text, record, index) {
+      console.log(text, record, index)
     }
   }
 };

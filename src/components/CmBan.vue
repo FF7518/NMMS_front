@@ -29,17 +29,18 @@
 
   <!-- Ban的主要结构 -->
   <div>
-    <a-select placehoder="选择停用类型" 
-    :style="{width:'120px', inline: true}">
+    <a-select placeholder="选择停用类型" 
+    :style="{width:'200px', inline: true}">
       <a-select-option value="guashi">挂失</a-select-option>
       <a-select-option value="tingyong">停用</a-select-option>
+      <a-select-option value="xiaohui">销毁</a-select-option>
     </a-select>
     <br>
     停用原因：
     <br>
     <a-textarea 
     :style="{width:'60%', inline:true}"
-    placeholder="Basic usage" :rows="4" />
+    placeholder="填写停用原因" :rows="4" />
     <br>
     <a-button :style="{}">提交</a-button>
   </div>
