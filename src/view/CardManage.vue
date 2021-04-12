@@ -14,11 +14,25 @@
               <router-view />
             </a-col>
             <a-col :span="10" :style="{padding: '4px', margin: '4px'}" >
-              <a-select :style="{width:'120px'}">
-                <a-select-option value="lucy">lucy</a-select-option>
-                
+              <!-- select -->
+              <a-select 
+                :style="{width:'120px'}"
+                v-model="searchKey"
+                @change="searchCard"
+                :default-value="searchTags[0].key"
+              >
+                <a-select-option 
+                  :value="item.key"
+                  :key="item.key"
+                  v-for="item in searchTags">
+                  {{item.text}}
+                </a-select-option>
               </a-select>
-              <a-input-search :style="{width:'120px', inline:true}">
+              <a-input-search 
+                :style="{width:'120px', inline:true}"
+                v-model="searchValue"
+                
+              >
 
               </a-input-search>
               
@@ -68,18 +82,38 @@ export default {
     return {
       columns,
       listData: listData,
+      AllData: null,
       pagination: {
         onChange: page => {
           console.log(page)
         },
         pageSize: 6,
       },
+      searchTags: [
+        {
+          key: '2',
+          text: '折扣卡'
+        },
+        {
+          key: '1',
+          text: '储值卡'
+        }
+      ],
+      searchKey: '',
+      searchValue: "",
     };
   },
   created() {
     this.getCardInfo()
   },
   methods: {
+    searchCard(value) {
+      // console.log('searchCard',value)
+      
+      this.listData = this.AllData.filter(record => {
+          return record['type'].toString().match(value)
+      })
+    },
     onListMore() {
       alert("你点击了！！")
     },
@@ -103,6 +137,7 @@ export default {
           });
         }
         console.log(this.listData)
+        this.AllData = this.listData
       })
     },
     cardSelectHandle(text, record, index) {
