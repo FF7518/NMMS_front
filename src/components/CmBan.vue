@@ -11,40 +11,60 @@
   <!-- 显示表的相关信息 -->
   <a-descriptions title="会员卡信息">
     <a-descriptions-item label="卡号">
-      12345
+      {{item.cid}}
     </a-descriptions-item>
     <a-descriptions-item label="卡内余额">
-      385.24
+      {{item.amount}}
     </a-descriptions-item>
     <a-descriptions-item label="卡类型">
-      折扣卡
+      {{item.type}}
     </a-descriptions-item>
     <a-descriptions-item label="卡折扣">
-      80%
+      {{item.discount}}
     </a-descriptions-item>
     <a-descriptions-item label="卡状态">
-      正常
+      {{item.status}}
     </a-descriptions-item>
   </a-descriptions>
 
   <!-- Ban的主要结构 -->
   <div>
-    <a-select placeholder="选择停用类型" 
-    :style="{width:'200px', inline: true}">
-      <a-select-option value="guashi">挂失</a-select-option>
-      <a-select-option value="tingyong">停用</a-select-option>
-      <a-select-option value="xiaohui">销毁</a-select-option>
+    <!-- 只写default-value没有用的话，再加个key -->
+    <a-select
+      :style="{width: '120px'}"
+      :key="this.item.status"
+      :default-value="this.item.status"
+    >
+      <a-select-option value='normal' :disabled="isCardStatusDisabled">
+        解禁
+      </a-select-option>
+      <a-select-option value='lost'>
+        挂失
+      </a-select-option>
+      <a-select-option value='deactived'>
+        停用
+      </a-select-option>
+      <a-select-option value='deleted'>
+        退卡
+      </a-select-option>
     </a-select>
     <br>
-    停用原因：
+    操作备注：
     <br>
     <a-textarea 
     :style="{width:'60%', inline:true}"
-    placeholder="填写停用原因" :rows="4" />
+    placeholder="填写备注" :rows="3"
+    v-model="item.message" />
     <br>
-    <a-button :style="{}">提交</a-button>
+    <a-button :style="{}"
+      @click="submit"
+    >
+      提交
+    </a-button>
   </div>
 
 
 </div>
 </template>
+
+<script src='@/script/cm-ban.js'/>
