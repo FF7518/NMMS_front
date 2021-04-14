@@ -1,5 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
+import { Card } from "_ant-design-vue@1.7.4@ant-design-vue";
+import cardManage from "../script/card-manage";
 
 const originalPush = Router.prototype.push
 
@@ -73,25 +75,26 @@ const router = new Router({
                     name: "financialmanage",
                     component: FinancialManage,
                 },
-            ],
-        },
-        {
-            path: "/cardmanage",
-            name: "cardmanage",
-            component: CardManage,
-            children: [
+                {
+                    path: "cardmanage",
+                    name: "cardmanage",
+                    component: CardManage,
+                },
                 {
                     path: "cardsale",
+                    name: "cardsale",
                     component: CmSale,
                 },
                 {
                     path: "cardban",
+                    name: "cardban",
                     component: CmBan,
                 },
                 {
                     path: "cardsave",
+                    name: "cardsave",
                     component: CmSave,
-                },
+                }
             ],
         },
         {

@@ -10,7 +10,7 @@ const fakeData = [
         'message': ''
     },
     {
-        'cid':2 ,
+        'cid': 2,
         'amount': 500,
         'discount': 80,
         'type': '2',
@@ -18,26 +18,26 @@ const fakeData = [
         'message': ''
     },
     {
-        'cid':3 ,
+        'cid': 3,
         'amount': 1000,
         'discount': 80,
-        'type':'2' ,
+        'type': '2',
         'status': 'normal',
         'message': ''
     },
     {
         'cid': 4,
-        'amount':580.43 ,
+        'amount': 580.43,
         'discount': 100,
         'type': '1',
-        'status':'normal' ,
+        'status': 'normal',
         'message': '1111'
     },
     {
         'cid': 5,
-        'amount':932 ,
-        'discount':100 ,
-        'type':'1' ,
+        'amount': 932,
+        'discount': 100,
+        'type': '1',
         'status': 'lost',
         'message': ''
     },
@@ -57,11 +57,14 @@ export default {
         return {
             item: '',
             addAmount: 0,
+            searchValue: '',
+            searchList: '',
+            AllData: '',
         }
     },
     created() {
         bus.$off('current_card')
-        bus.$on('current_card', (cid)=>{
+        bus.$on('current_card', (cid) => {
             // console.log(cid)
             let len = fakeData.length
             for (let i = 0; i < len; ++i) {
@@ -78,13 +81,63 @@ export default {
     },
     methods: {
         submit() {
-            console.log(this.addAmount )
+            console.log(this.addAmount)
             this.item.amount += this.addAmount
             console.log(this.item.amount)
+            this.updateCardInfo()
         },
         inputChange(value) {
             // console.log(value)
             this.addAmount = value
+        },
+        updateCardInfo() {
+            this.baseAxios({
+                method: 'post',
+                url: '/card/update_card_info',
+                data: this.item,
+            }).then((res => {
+                console.log(res.data)
+            }))
+        },
+        getCardInfo() {
+            this.baseAxios({
+                method: 'get',
+                url: '/card/get_card_list',
+                // params
+
+            }).then((response) => {
+                this.searchList = []
+                console.log(response.data.length)
+                // 同步到列表
+                var listLen = response.data.length
+                for (var i = 0; i < listLen; ++i) {
+                    this.searchList.push({
+                        cid: response.data[i]['cid'],
+                        amount: response.data[i]['amount'],
+                        discount: response.data[i]['discount'],
+                        type: response.data[i]['type']
+                    });
+                }
+                console.log(this.searchList)
+                this.AllData = this.searchList
+            })
+
+            // this.listData = fakeData
+        },
+        handleChange(e) {
+            console.log(e, 'change')
+            this.searchValue = e
+            // need improve
+            for (let i = 0; i < this.searchList.length; ++i) {
+                if (this.searchList[i]['cid'] == e) {
+                    this.item = this.searchList[i]
+                    break
+                }
+            }
+        },
+        handleSearch(e) {
+            console.log(e, 'search')
+            this.getCardInfo()
         },
     },
 }

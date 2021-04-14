@@ -1,93 +1,108 @@
 <template>
-<div>
-<a-tabs default-active-key="1">
-  <a-tab-pane key="1" tab="用户列表">
-    <a-table :columns="columns" :data-source="data" bordered>
-      <template
-        v-for="col in ['name', 'identity', 'phonenumber']"
-        :slot="col"
-        slot-scope="text, record"
-      >
-        <div :key="col">
-          <a-input
-            v-if="record.editable"
-            style="margin: -5px 0"
-            :value="text"
-            @click="onEdit(text)"
-            @change="e => handleChange(e.target.value, record.key, col)"
-          />
-          <template  v-else>
-            {{ text }}
+  <div>
+    <a-tabs default-active-key="1">
+      <a-tab-pane key="1" tab="用户列表">
+        <a-table
+          :columns="columns"
+          :data-source="data"
+          bordered
+          :scroll="{ y: '50vh' }"
+        >
+          <template
+            v-for="col in ['name', 'identity', 'phonenumber']"
+            :slot="col"
+            slot-scope="text, record"
+          >
+            <div :key="col">
+              <a-input
+                v-if="record.editable"
+                style="margin: -5px 0"
+                :value="text"
+                @click="onEdit(text)"
+                @change="(e) => handleChange(e.target.value, record.key, col)"
+              />
+              <template v-else>
+                {{ text }}
+              </template>
+            </div>
           </template>
-        </div>
-      </template>
-      <template slot="operation" slot-scope="text, record">
-        <div class="editable-row-operations">
-          <span v-if="record.editable">
-            <a @click="() => save(record.key)">保存</a>
-            <a-popconfirm title="确定要取消吗？" @confirm="() => cancel(record.key)">
-              <a>取消</a>
-            </a-popconfirm>
-          </span>
-          <span v-else>
-            <a :disabled="editingKey !== ''" @click="() => edit(record.key)">修改</a>
-            <a :disabled="editingKey !== ''" @click="() => {intoCard(record.key);showDrawer(record.key)}">会员卡</a>
-          </span>
-        </div>
-      </template>
-    </a-table>
-  </a-tab-pane>
-  <a-tab-pane key="2" tab="Tab 2">
-    Waiting to be added...
-  </a-tab-pane>
-  
-  
-</a-tabs>
-  <a-drawer
-        title="会员卡信息"
-        width="640"
-        placement="right"
-        :closable="false"
-        :visible="visible"
-        :after-visible-change="afterDrawerVisibleChange"
-        @close="onDrawerClose"
-  >
-    <p>1111</p>
-  </a-drawer>
-</div>
+          <template slot="operation" slot-scope="text, record">
+            <div class="editable-row-operations">
+              <span v-if="record.editable">
+                <a @click="() => save(record.key)">保存</a>
+                <a-popconfirm
+                  title="确定要取消吗？"
+                  @confirm="() => cancel(record.key)"
+                >
+                  <a>取消</a>
+                </a-popconfirm>
+              </span>
+              <span v-else>
+                <a :disabled="editingKey !== ''" @click="() => edit(record.key)"
+                  >修改</a
+                >
+                <a
+                  :disabled="editingKey !== ''"
+                  @click="
+                    () => {
+                      intoCard(record.key);
+                      showDrawer(record.key);
+                    }
+                  "
+                  >会员卡</a
+                >
+              </span>
+            </div>
+          </template>
+        </a-table>
+      </a-tab-pane>
+      <a-tab-pane key="2" tab="Tab 2"> Waiting to be added... </a-tab-pane>
+    </a-tabs>
+    <a-drawer
+      title="会员卡信息"
+      width="640"
+      placement="right"
+      :closable="false"
+      :visible="visible"
+      :after-visible-change="afterDrawerVisibleChange"
+      @close="onDrawerClose"
+    >
+      <p>1111</p>
+    </a-drawer>
+  </div>
 </template>
 
 
 <script>
 const columns = [
   {
-    title: 'ID',
-    dataIndex: 'mid',
-    with: '10%',
-    scopedSlots: {customRender: 'mid'}
+    title: "ID",
+    dataIndex: "mid",
+    with: "10%",
+    scopedSlots: { customRender: "mid" },
   },
   {
-    title: '姓名',
-    dataIndex: 'name',
-    width: '25%',
-    scopedSlots: { customRender: 'name' },
+    title: "姓名",
+    dataIndex: "name",
+    width: "25%",
+    scopedSlots: { customRender: "name" },
   },
   {
-    title: '身份证号',
-    dataIndex: 'identity',
-    width: '15%',
-    scopedSlots: { customRender: 'identity' },
+    title: "身份证号",
+    dataIndex: "identity",
+    width: "15%",
+    scopedSlots: { customRender: "identity" },
   },
   {
-    title: '联系电话',
-    dataIndex: 'phonenumber',
-    width: '40%',
-    scopedSlots: { customRender: 'phonenumber' },
+    title: "联系电话",
+    dataIndex: "phonenumber",
+    width: "40%",
+    scopedSlots: { customRender: "phonenumber" },
   },
   {
-    title: '操作',
-    dataIndex: 'operation',
-    scopedSlots: { customRender: 'operation' },
+    title: "操作",
+    dataIndex: "operation",
+    scopedSlots: { customRender: "operation" },
   },
 ];
 
@@ -143,29 +158,27 @@ for (let i = 0; i < 100; i++) {
 // }
 
 export default {
-  components: { 
-
-  },
+  components: {},
   data() {
-    this.cacheData = data.map(item => ({ ...item }));
+    this.cacheData = data.map((item) => ({ ...item }));
     return {
       data,
       columns,
       // innerColumns,
       // innnerData,
-      editingKey: '',
+      editingKey: "",
       visible: false,
     };
   },
   methods: {
     // test func -> looking at scope-slot
     onEdit(value) {
-      alert(JSON.stringify(value))
+      alert(JSON.stringify(value));
     },
 
     handleChange(value, key, column) {
       const newData = [...this.data];
-      const target = newData.filter(item => key === item.key)[0];
+      const target = newData.filter((item) => key === item.key)[0];
       if (target) {
         target[column] = value;
         this.data = newData;
@@ -173,7 +186,7 @@ export default {
     },
     edit(key) {
       const newData = [...this.data];
-      const target = newData.filter(item => key === item.key)[0];
+      const target = newData.filter((item) => key === item.key)[0];
       this.editingKey = key;
       if (target) {
         target.editable = true;
@@ -183,22 +196,25 @@ export default {
     save(key) {
       const newData = [...this.data];
       const newCacheData = [...this.cacheData];
-      const target = newData.filter(item => key === item.key)[0];
-      const targetCache = newCacheData.filter(item => key === item.key)[0];
+      const target = newData.filter((item) => key === item.key)[0];
+      const targetCache = newCacheData.filter((item) => key === item.key)[0];
       if (target && targetCache) {
         delete target.editable;
         this.data = newData;
         Object.assign(targetCache, target);
         this.cacheData = newCacheData;
       }
-      this.editingKey = '';
+      this.editingKey = "";
     },
     cancel(key) {
       const newData = [...this.data];
-      const target = newData.filter(item => key === item.key)[0];
-      this.editingKey = '';
+      const target = newData.filter((item) => key === item.key)[0];
+      this.editingKey = "";
       if (target) {
-        Object.assign(target, this.cacheData.filter(item => key === item.key)[0]);
+        Object.assign(
+          target,
+          this.cacheData.filter((item) => key === item.key)[0]
+        );
         delete target.editable;
         this.data = newData;
       }
@@ -206,18 +222,18 @@ export default {
     // 查看会员卡操作，进入另一个页面
     intoCard(key) {
       // alert(JSON.stringify(key))
-      console.log('intoCard',key)
+      console.log("intoCard", key);
     },
 
     // 抽屉
     afterDrawerVisibleChange(val) {
-      console.log('visible',val)
+      console.log("visible", val);
     },
     showDrawer(key) {
-      this.visible = true
+      this.visible = true;
     },
     onDrawerClose() {
-      this.visible = false
+      this.visible = false;
     },
   },
 };

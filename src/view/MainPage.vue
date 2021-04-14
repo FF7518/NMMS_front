@@ -15,7 +15,7 @@ export default {};
   text-align: center;
   height: 160px;
   line-height: 160px;
-  background: #364d79;
+  background: #7a98d1;
   overflow: hidden;
 }
 
