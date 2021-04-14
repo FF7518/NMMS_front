@@ -63,7 +63,7 @@
             <span>类型</span>
           </a-col>
           <a-col :span="8">
-            <a-select style="width: 200px">
+            <a-select style="width: 100%">
               <a-select-option value="1"> 储值卡 </a-select-option>
               <a-select-option value="2"> 折扣卡 </a-select-option>
             </a-select>
@@ -83,20 +83,31 @@
           <a-col :span="5">
             <a-input> </a-input>
           </a-col>
+          <a-col :span="2">
+            <span>状态</span>
+          </a-col>
+          <a-col :span="6">
+            <a-select :style="{ width: '100%' }">
+              <a-select-option value="normal"> 正常 </a-select-option>
+              <a-select-option value="lost"> 挂失 </a-select-option>
+              <a-select-option value="deactivate"> 停用 </a-select-option>
+            </a-select>
+          </a-col>
         </a-row>
         <a-divider />
-        <a-row>
-          持卡人信息
-        </a-row>
+        <a-row> 持卡人信息 </a-row>
         <br />
         <a-row :gutter="8">
-          <a-col :span="2">
+          <a-col :span="4">
             <span>姓名</span>
           </a-col>
           <a-col :span="6">
             <a-input />
           </a-col>
-          <a-col :span="3">
+        </a-row>
+        <br />
+        <a-row :gutter="8">
+          <a-col :span="4">
             <span>身份证</span>
           </a-col>
           <a-col :span="10">
@@ -108,13 +119,20 @@
           <a-col :span="4">
             <span>联系方式</span>
           </a-col>
-        </a-row>
-        <br />
-        <a-row :gutter="8">
           <a-col :span="10">
             <a-input />
           </a-col>
         </a-row>
+        <a-divider />
+        <p>使用记录</p>
+        <a-table
+          :scroll="{ y: '50vh' }"
+          :columns="columns"
+          :data-source="listData"
+          rowKey="cid"
+          :customRow="cardSelect"
+        >
+        </a-table>
       </a-input-group>
     </a-drawer>
   </a-row>
