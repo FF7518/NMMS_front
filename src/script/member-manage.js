@@ -62,125 +62,134 @@ const cardColumns = [
     },
 ]
 
-// const innerColumns = [
-//   {
-//     title: '会员卡卡号',
-//     dataIndex: 'cid',
-//     key: 'cid',
-//   },
-//   {
-//     title: '余额',
-//     dataIndex: 'amount',
-//     key: 'amount',
-//   },
-//   {
-//     title: '折扣',
-//     dataIndex: 'discount',
-//     key: 'discount',
-//   },
-//   {
-//     title: '类型',
-//     dataIndex: 'type',
-//     key: 'type',
-//   },
-//   {
-//     title: '状态',
-//     dataIndex: 'status',
-//     key: 'status',
-//   }
-// ]
-
-const data = [];
-for (let i = 0; i < 100; i++) {
-    data.push({
-        key: i.toString(),
-        mid: i,
-        name: `Edrward ${i}`,
-        identity: 32,
-        phonenumber: `London Park no. ${i}`,
-    });
-}
-
-// const innnerData = [];
-// for (let i = 0; i < 3; ++i) {
-//   innnerData.push({
-//     key: i,
-//     cid: i,
-//     amount: 100.00,
-//     discount: 0.80,
-//     type: '储值卡',
-//     status: '正常',
-//   })
+// const data = [];
+// for (let i = 0; i < 100; i++) {
+//     data.push({
+//         key: i.toString(),
+//         mid: i,
+//         name: `Edrward ${i}`,
+//         identity: 32,
+//         phonenumber: `London Park no. ${i}`,
+//     });
 // }
+
 
 export default {
     components: {},
     data() {
-        this.cacheData = data.map((item) => ({ ...item }));
         return {
-            data,
+            // 所有会员
+            memberList: [],
+            // 当前选择的会员
+            cacheItem: '',
+            // 会员拥有的会员卡列表
+            memberOwnedCardList: [],
             columns,
             cardColumns,
-            // innerColumns,
-            // innnerData,
             editingKey: "",
             visible: false,
             childVisible: false,
+            modalVisible: false,
         };
     },
+    created() {
+        this.getMemberList()
+    },
     methods: {
+        getMemberList() {
+            this.baseAxios({
+                method: 'get',
+                url: '/member/get_member_list',
+            }).then((res) => {
+                console.log(res.data)
+                this.memberList = []
+                for (var i = 0; i < res.data.length; ++i) {
+                    this.memberList.push({
+                        key: res.data[i]['mid'],
+                        mid: res.data[i]['mid'],
+                        name: res.data[i]['name'],
+                        identity: res.data[i]['identity'],
+                        phonenumber: res.data[i]['phonenumber'],
+                        editable: false
+                    })
+                }
+            })
+        },
+        getMemberOwnedCardList() {
+            this.baseAxios({
+                method: 'get',
+                url: '/member/get_card_listall',
+                params: { mid: this.cacheItem['mid'] }
+            }).then((response) => {
+                this.memberOwnedCardList = []
+                var listLen = response.data.length
+                for (var i = 0; i < listLen; ++i) {
+                    this.memberOwnedCardList.push({
+                        cid: response.data[i]['cid'],
+                        amount: response.data[i]['amount'],
+                        discount: response.data[i]['discount'],
+                        type: response.data[i]['type']
+                    })
+                }
+            })
+        },
+
+        setModalVisible() {
+            this.modalVisible = false
+        },
         // test func -> looking at scope-slot
         onEdit(value) {
             // alert(JSON.stringify(value));
         },
+        updateMemberInfo() {
+            console.log(this.cacheItem)
+            this.baseAxios({
+                method: 'post',
+                url: '/member/update_member_info',
+                data: this.cacheItem,
+            }).then((res) => {
+                console.log(res.data)
+                this.getMemberList()
+            })
 
+        },
         handleChange(value, key, column) {
-            const newData = [...this.data];
-            const target = newData.filter((item) => key === item.key)[0];
-            if (target) {
-                target[column] = value;
-                this.data = newData;
-            }
+            console.log(value, key, column)
         },
-        edit(key) {
-            const newData = [...this.data];
-            const target = newData.filter((item) => key === item.key)[0];
-            this.editingKey = key;
-            if (target) {
-                target.editable = true;
-                this.data = newData;
-            }
+        onMemberTableEdit(record) {
+            this.modalVisible = true
+            this.cacheItem = { 'mid': 0, 'name': '', 'identity': '', 'phonenumber': '' }
+            let member = this.memberList.filter((item) => record.key === item.key)[0]
+            this.cacheItem['identity'] = member['identity']
+            this.cacheItem['name'] = member['name']
+            this.cacheItem['phonenumber'] = member['phonenumber']
+            this.cacheItem['mid'] = member['mid']
+            // // 查找key
+            // key = record.key
+            // let target = this.memberList.filter((item) => key === item.key);
+            // console.log(target)
+            // record.editable = true
         },
-        save(key) {
-            const newData = [...this.data];
-            const newCacheData = [...this.cacheData];
-            const target = newData.filter((item) => key === item.key)[0];
-            const targetCache = newCacheData.filter((item) => key === item.key)[0];
-            if (target && targetCache) {
-                delete target.editable;
-                this.data = newData;
-                Object.assign(targetCache, target);
-                this.cacheData = newCacheData;
-            }
-            this.editingKey = "";
+        save(record) {
+            console.log(record)
+            // record.editable = false
         },
-        cancel(key) {
-            const newData = [...this.data];
-            const target = newData.filter((item) => key === item.key)[0];
-            this.editingKey = "";
-            if (target) {
-                Object.assign(
-                    target,
-                    this.cacheData.filter((item) => key === item.key)[0]
-                );
-                delete target.editable;
-                this.data = newData;
-            }
+        cancel(record) {
+            // let target = newData.filter((item) => key === item.key)[0];
+
+            // record.editable = false
         },
         // 查看会员卡操作，进入另一个页面
         intoCard(key) {
             // alert(JSON.stringify(key))
             console.log("intoCard", key)
+            this.cacheItem = { 'mid': 0, 'name': '', 'identity': '', 'phonenumber': '' }
+            let member = this.memberList.filter((item) => key === item.key)[0]
+            this.cacheItem['identity'] = member['identity']
+            this.cacheItem['name'] = member['name']
+            this.cacheItem['phonenumber'] = member['phonenumber']
+            this.cacheItem['mid'] = member['mid']
+            this.getMemberOwnedCardList()
         },
 
         // 抽屉

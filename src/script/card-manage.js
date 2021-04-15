@@ -1,4 +1,5 @@
 import bus from '@/utils/bus'
+import { times } from 'lodash';
 
 
 const fakeData = [
@@ -64,6 +65,14 @@ const columns = [
   { title: '操作', dataIndex: 'operation', scopedSlots: { customRender: 'operation' } },
 ]
 
+const selectRecordColumns = [
+  { title: '编号', dataIndex: 'deposit_id', key: 'deposit_id' },
+  { title: '卡号', dataIndex: 'cid', key: 'cid' },
+  { title: '操作', dataIndex: 'deposit_type', key: 'deposit_type' },
+  { title: '明细', dataIndex: 'amount', key: 'amount' },
+  { title: '时间', dataIndex: 'time', key: 'time' }
+]
+
 var listData = []
 
 
@@ -73,6 +82,7 @@ export default {
       columns,
       listData: listData,
       AllData: null,
+      selectRecordColumns,
       pagination: {
         onChange: page => {
           console.log(page)
@@ -98,21 +108,121 @@ export default {
       current_card: '',
       drawerTitle: '',
       isDrawerVisible: false,
-
+      selectItem: '',
+      selectMember: '',
+      selectRecord: [],
     };
   },
   created() {
-    this.getCardInfo()
+    this.getCardList()
   },
   methods: {
     afterDrawerVisibleChange(val) {
 
     },
+    async getDepositById(key) {
+      this.baseAxios({
+        method: 'get',
+        url: '/deposit/get_deposit_bycard',
+        params: { cid: key }
+      }).then((res) => {
+        this.selectRecord = []
+        for (let i = 0; i < res.data.length; ++i) {
+          this.selectRecord.push({
+            'deposit_id': res.data[i]['deposit_id'],
+            'cid': res.data[i]['cid'],
+            'deposit_type': res.data[i]['deposit_type'],
+            'amount': res.data[i]['amount'],
+            'time': res.data[i]['time']
+          })
+        }
+      })
+    },
+    async getMemberAndCardInfo(key) {
+      this.baseAxios({
+        method: 'get',
+        url: '/card/get_memberandcard_info',
+        params: { cid: key }
+      }).then((res) => {
+        this.selectItem = {
+          'cid': '',
+          'amount': '',
+          'type': '',
+          'discount': '',
+          'status': '',
+          'message': '',
+        }
+        this.selectItem['cid'] = res.data['cid']
+        this.selectItem['amount'] = res.data['amount']
+        this.selectItem['type'] = res.data['type']
+        this.selectItem['discount'] = res.data['discount']
+        this.selectItem['status'] = res.data['status']
+        this.selectItem['message'] = res.data['message']
+        this.selectMember = {
+          'mid': '',
+          'name': '',
+          'identity': '',
+          'phonenumber': '',
+        }
+        this.selectMember['mid'] = res.data['mid']
+        this.selectMember['name'] = res.data['name']
+        this.selectMember['identity'] = res.data['identity']
+        this.selectMember['phonenumber'] = res.data['phonenumber']
+      })
+    },
+    async getCardInfo(key) {
+      this.baseAxios({
+        method: 'get',
+        url: '/card/get_card_info',
+        params: { cid: key }
+      }).then((res) => {
+        this.selectItem = {
+          'cid': '',
+          'amount': '',
+          'type': '',
+          'discount': '',
+          'status': '',
+          'message': '',
+        }
+        this.selectItem['cid'] = res.data['cid']
+        this.selectItem['amount'] = res.data['amount']
+        this.selectItem['type'] = res.data['type']
+        this.selectItem['discount'] = res.data['discount']
+        this.selectItem['status'] = res.data['status']
+        this.selectItem['message'] = res.data['message']
+      })
+    },
+    async getMemberInfo(key) {
+      this.baseAxios({
+        method: 'get',
+        url: '/card/get_member_info',
+        params: { cid: key }
+      }).then((res) => {
+        this.selectMember = {
+          'mid': '',
+          'name': '',
+          'identity': '',
+          'phonenumber': '',
+        }
+        this.selectMember['mid'] = res.data['mid']
+        this.selectMember['name'] = res.data['name']
+        this.selectMember['identity'] = res.data['identity']
+        this.selectMember['phonenumber'] = res.data['phonenumber']
+      })
+    },
     showDrawer(key) {
       this.isDrawerVisible = true
+      console.log(key)
+      // this.getCardInfo(key)
+      // this.getMemberInfo(key)
+      this.getMemberAndCardInfo(key)
+      this.getDepositById(key)
     },
     onDrawerClose() {
       this.isDrawerVisible = false
+      this.selectItem = {}
+      this.selectMember = {}
+      this.selectRecord = []
     },
     cardSelect(text, index) {
       return {
@@ -148,7 +258,7 @@ export default {
     onListMore() {
       alert("你点击了！！")
     },
-    getCardInfo() {
+    getCardList() {
       this.baseAxios({
         method: 'get',
         url: '/card/get_card_list',
@@ -176,8 +286,8 @@ export default {
 
     },
     cardSelectHandle(text, record, index) {
-      console.log(text, record, index)
-      this.showDrawer()
+      // console.log(text, record, index)
+      this.showDrawer(record.cid)
       this.drawerTitle = record.cid
     }
   }

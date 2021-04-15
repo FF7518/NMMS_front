@@ -36,6 +36,8 @@ import {Button,
         Card,
         Descriptions,
         message,
+        Modal,
+        Empty,
 
     } from 'ant-design-vue';
 // import 'ant-design-vue/dist/antd.css';
@@ -70,6 +72,8 @@ Vue.use(Row)
 Vue.use(Collapse)
 Vue.use(Card)
 Vue.use(Descriptions)
+Vue.use(Modal)
+Vue.use(Empty)
 
 Vue.prototype.$bus = new Vue()
 Vue.prototype.$message = message

@@ -38,7 +38,7 @@ export default {
 
   },
   created() {
-    this.getCardInfo()
+  
   },
   methods: {
     // 表单相关操作

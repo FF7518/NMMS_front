@@ -42,7 +42,7 @@
 
     <!-- drawer -->
     <a-drawer
-      :title="drawerTitle"
+      :title="'会员卡： '+(selectItem.cid)"
       width="480"
       placement="right"
       :closeable="false"
@@ -53,17 +53,17 @@
       <!-- <a-divider /> -->
       <a-input-group>
         <a-row :gutter="8">
-          <a-col :span="2">
+          <a-col :span="3">
             <span>卡号</span>
           </a-col>
           <a-col :span="5">
-            <a-input default-value="001" />
+            <a-input default-value="" v-model="selectItem.cid" />
           </a-col>
-          <a-col :span="2">
+          <a-col :span="3">
             <span>类型</span>
           </a-col>
           <a-col :span="8">
-            <a-select style="width: 100%">
+            <a-select style="width: 100%" v-model="selectItem.type">
               <a-select-option value="1"> 储值卡 </a-select-option>
               <a-select-option value="2"> 折扣卡 </a-select-option>
             </a-select>
@@ -71,26 +71,26 @@
         </a-row>
         <br />
         <a-row :gutter="8">
-          <a-col :span="2">
+          <a-col :span="3">
             <span>余额</span>
           </a-col>
           <a-col :span="5">
-            <a-input default-value="20" />
+            <a-input default-value="" v-model="selectItem.amount" />
           </a-col>
-          <a-col :span="2">
+          <a-col :span="3">
             <span>折扣</span>
           </a-col>
           <a-col :span="5">
-            <a-input> </a-input>
+            <a-input v-model="selectItem.discount"> </a-input>
           </a-col>
-          <a-col :span="2">
+          <a-col :span="3">
             <span>状态</span>
           </a-col>
-          <a-col :span="6">
-            <a-select :style="{ width: '100%' }">
+          <a-col :span="5">
+            <a-select :style="{ width: '100%' }" :value="selectItem.status">
               <a-select-option value="normal"> 正常 </a-select-option>
               <a-select-option value="lost"> 挂失 </a-select-option>
-              <a-select-option value="deactivate"> 停用 </a-select-option>
+              <a-select-option value="deactived"> 停用 </a-select-option>
             </a-select>
           </a-col>
         </a-row>
@@ -102,7 +102,7 @@
             <span>姓名</span>
           </a-col>
           <a-col :span="6">
-            <a-input />
+            <a-input v-model="selectMember.name" />
           </a-col>
         </a-row>
         <br />
@@ -111,7 +111,7 @@
             <span>身份证</span>
           </a-col>
           <a-col :span="10">
-            <a-input> </a-input>
+            <a-input v-model="selectMember.identity"> </a-input>
           </a-col>
         </a-row>
         <br />
@@ -120,17 +120,16 @@
             <span>联系方式</span>
           </a-col>
           <a-col :span="10">
-            <a-input />
+            <a-input v-model="selectMember.phonenumber" />
           </a-col>
         </a-row>
         <a-divider />
         <p>使用记录</p>
         <a-table
           :scroll="{ y: '50vh' }"
-          :columns="columns"
-          :data-source="listData"
-          rowKey="cid"
-          :customRow="cardSelect"
+          :columns="selectRecordColumns"
+          :data-source="selectRecord"
+          rowKey="deposit_id"
         >
         </a-table>
       </a-input-group>
