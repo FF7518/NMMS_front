@@ -10,7 +10,7 @@ import axios from 'axios'
 export function baseAxios(config) {
     const instance = axios.create({
         baseURL: baseUrl,
-        timeout: 5000,
+        timeout: 60000, // 等待60秒
     })
     return instance(config)
 }

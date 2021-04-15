@@ -11,6 +11,7 @@
       :value="searchValue"
       :default-active-first-option="false"
       :show-arrow="false"
+      :not-found-content="null"
       @change="handleChange"
       @search="handleSearch"
     >

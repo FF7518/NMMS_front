@@ -120,9 +120,19 @@
         bordered
       >
       </a-table>
+      <p></p>
       <a-button @click="showChildDrawer"> 测试 </a-button>
+      <!-- 消费记录 -->
+      <p></p>
+      <!-- 可以根据卡号搜索 -->
+      <a-table
+        :columns="depositColumns"
+        :data-source="depositList"
+        rowKey="deposit_id"
+      >
+      </a-table>
       <a-drawer
-        title="一张会员卡"
+        title="一张会员卡 没必要"
         width="420"
         placement="right"
         :closable="false"
