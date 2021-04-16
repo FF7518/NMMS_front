@@ -1,5 +1,5 @@
 <template>
-  <a-layout id="components-layout-demo-side" style="height: 100vh">
+  <a-layout id="components-layout-demo-side" style="height: 100%">
     <a-layout-sider v-model="collapsed" collapsible theme="dark">
       <div class="logo" />
       <a-menu theme="dark" :default-selected-keys="['1']" mode="inline">
@@ -47,7 +47,8 @@
         </a-menu-item>
       </a-menu>
     </a-layout-sider>
-    <a-layout>
+    <!-- 此处可以调整页面高度 -->
+    <a-layout :style="{ height: '150vh' }">
       <!-- <a-layout-header style="background: #fff; padding: 0" /> -->
       <a-layout-content style="margin: 8px 8px">
         <!-- <a-breadcrumb style="margin: 16px 0">
