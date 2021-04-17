@@ -40,6 +40,7 @@
           <span>回到主界面</span>
           <router-link to="/dashboard/mainpage"></router-link>
         </a-menu-item>
+         <!-- style="display: none" -->
         <a-menu-item key="4" :disabled="auth_sys">
           <a-icon type="setting" />
           <span>系统管理</span>
@@ -49,7 +50,7 @@
     </a-layout-sider>
     <!-- 此处可以调整页面高度 -->
     <a-layout :style="{ height: '150vh' }">
-      <a-layout-header :style="{ position: 'fixed', zIndex: 1, width: '100%' }">
+      <a-layout-header :style="{ position: 'fixed', zIndex: 2, width: '100%' }">
         
       </a-layout-header>
       <a-layout-content :style="{ margin: '8px 8px', marginTop: '72px' }">

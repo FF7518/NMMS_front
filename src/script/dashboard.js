@@ -25,6 +25,7 @@ export default {
         url: '/admin/get_admin_info',
         params: { aid : window.sessionStorage.getItem('aid')}
       }).then((res) => {
+        // console.log(window.sessionStorage.getItem('aid'))
         // console.log(res.data)
         let auth = parseInt(res.data.auth)
         // comfirm auth
