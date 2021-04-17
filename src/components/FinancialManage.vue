@@ -1,7 +1,6 @@
 <template>
   <div>
     <div id="first">
-      <span style="font-size: 18px">展开搜索</span>
     </div>
     <div id="second">
       <!-- <a-collapse :bordered="false">
@@ -117,11 +116,13 @@
             表格
           </span>
           <a-table
+            :pagination="pagination"
             :columns="columns"
             :data-source="displayList"
             rowKey="deposit_id"
-            :scroll="{ y: '48vh' }"
+            
           >
+          <!-- :scroll="{ y: '48vh' }" -->
           </a-table>
         </a-tab-pane>
         <a-tab-pane key="2">

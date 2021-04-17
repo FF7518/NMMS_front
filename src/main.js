@@ -39,6 +39,7 @@ import {Button,
         Modal,
         Empty,
         Breadcrumb,
+        Affix,
 
     } from 'ant-design-vue';
 // import 'ant-design-vue/dist/antd.css';
@@ -76,6 +77,7 @@ Vue.use(Descriptions)
 Vue.use(Modal)
 Vue.use(Empty)
 Vue.use(Breadcrumb)
+Vue.use(Affix)
 
 Vue.prototype.$bus = new Vue()
 Vue.prototype.$message = message

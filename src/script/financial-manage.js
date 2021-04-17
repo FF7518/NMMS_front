@@ -92,6 +92,12 @@ export default {
             // 下面两个都是作为cache，不停变换
             depositList: [],
             displayList: [],
+            pagination: {
+                onChange: page => {
+                    console.log(page)
+                },
+                pageSize: 15,
+            },
             searchKeys: {
                 'deposit_type': '',
                 'member': {

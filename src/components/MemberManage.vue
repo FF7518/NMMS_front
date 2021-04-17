@@ -3,11 +3,12 @@
     <a-button @click="getMemberList">Test Method</a-button>
     <a-tabs default-active-key="1">
       <a-tab-pane key="1" tab="用户列表">
+        <!-- :scroll="{ y: '50vh' }" -->
         <a-table
           :columns="columns"
           :data-source="memberList"
           bordered
-          :scroll="{ y: '50vh' }"
+          size="small"
         >
           <template
             v-for="col in ['name', 'identity', 'phonenumber']"
