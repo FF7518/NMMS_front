@@ -3,7 +3,7 @@
     <a-layout-sider v-model="collapsed" collapsible theme="dark">
       <div class="logo" />
       <a-menu theme="dark" :default-selected-keys="['1']" mode="inline">
-        <a-sub-menu key="sub1">
+        <a-sub-menu key="sub1" :disabled="auth_card">
           <span slot="title">
             <a-icon type="credit-card" />
             <span>会员卡管理</span>
@@ -25,12 +25,12 @@
             <router-link to="/dashboard/cardsave"></router-link>
           </a-menu-item>
         </a-sub-menu>
-        <a-menu-item key="2">
+        <a-menu-item key="2" :disabled="auth_member">
           <a-icon type="user" />
           <span>用户管理</span>
           <router-link to="/dashboard/membermanage"></router-link>
         </a-menu-item>
-        <a-menu-item key="3">
+        <a-menu-item key="3" :disabled="auth_deposit">
           <a-icon type="bar-chart" />
           <span>消费管理</span>
           <router-link to="/dashboard/financialmanage"></router-link>
@@ -40,17 +40,19 @@
           <span>回到主界面</span>
           <router-link to="/dashboard/mainpage"></router-link>
         </a-menu-item>
-        <a-menu-item key="4">
+        <a-menu-item key="4" :disabled="auth_sys">
           <a-icon type="setting" />
           <span>系统管理</span>
-          <router-link to="/admin"></router-link>
+          <router-link to="/dashboard/admin"></router-link>
         </a-menu-item>
       </a-menu>
     </a-layout-sider>
     <!-- 此处可以调整页面高度 -->
     <a-layout :style="{ height: '150vh' }">
-      <!-- <a-layout-header style="background: #fff; padding: 0" /> -->
-      <a-layout-content style="margin: 8px 8px">
+      <a-layout-header :style="{ position: 'fixed', zIndex: 1, width: '100%' }">
+        
+      </a-layout-header>
+      <a-layout-content :style="{ margin: '8px 8px', marginTop: '72px' }">
         <!-- <a-breadcrumb style="margin: 16px 0">
           <a-breadcrumb-item>A breadcrumb item 1</a-breadcrumb-item>
           <a-breadcrumb-item>A breadcrumb item 2</a-breadcrumb-item>

@@ -13,6 +13,8 @@ Vue.use(Router)
 // view
 const App = () =>
     import ("@/App")
+const Home = () =>
+    import ("@/view/Home")
 const Dashboard= () =>
     import ('@/view/Dashboard')
 const MainPage = () =>
@@ -23,6 +25,8 @@ const CardManage = () =>
 // components
 const Admin = () =>
     import ('@/components/Admin')
+const Login = () => 
+    import ('@/components/Login')
 const MemberManage = () =>
     import ("@/components/MemberManage")
 const CmSale = () =>
@@ -33,6 +37,8 @@ const CmSave = () =>
     import ('@/components/CmSave')
 const FinancialManage = () =>
     import ('@/components/FinancialManage')
+const HomeContent = () =>
+    import ('@/components/HomeContent')
 
 
 
@@ -45,12 +51,25 @@ const router = new Router({
             name: "app",
             component: App,
             meta: {},
-            redirect: "/dashboard",
+            redirect: "/home",
         },
         {
-            path: "/admin",
-            name: "admin",
-            component: Admin,  
+            path: "/home",
+            name: "home",
+            component: Home,
+            redirect: "/home/content",
+            children: [
+                {
+                    path: "/home/login",
+                    name: "login",
+                    component: Login,
+                },
+                {
+                    path: "/home/content",
+                    name: "homecontent",
+                    component: HomeContent,
+                }
+            ]
         },
         {
             path: "/dashboard",
@@ -94,7 +113,12 @@ const router = new Router({
                     path: "cardsave",
                     name: "cardsave",
                     component: CmSave,
-                }
+                },
+                {
+                    path: "admin",
+                    name: "admin",
+                    component: Admin,  
+                },
             ],
         },
         {
