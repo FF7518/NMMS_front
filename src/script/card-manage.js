@@ -58,11 +58,11 @@ const fakeData = [
 
 // 设置会员卡表表头
 const columns = [
-  { title: '卡号', dataIndex: 'cid', key: 'cid', scopedSlots: { customRender: 'cid' } },
-  { title: '余额', dataIndex: 'amount', key: 'amount', scopedSlots: { customRender: 'amount' } },
-  { title: '折扣', dataIndex: 'discount', key: 'discount', scopedSlots: { customRender: 'discount' } },
-  { title: '种类', dataIndex: 'type', key: 'type', scopedSlots: { customRender: 'type' } },
-  { title: '操作', dataIndex: 'operation', scopedSlots: { customRender: 'operation' } },
+  { title: '卡号', dataIndex: 'cid', key: 'cid', scopedSlots: { customRender: 'cid' }, align: 'center', },
+  { title: '余额', dataIndex: 'amount', key: 'amount', scopedSlots: { customRender: 'amount' }, align: 'center', },
+  { title: '折扣', dataIndex: 'discount', key: 'discount', scopedSlots: { customRender: 'discount' }, align: 'center', },
+  { title: '种类', dataIndex: 'type', key: 'type', scopedSlots: { customRender: 'type' }, align: 'center', },
+  { title: '操作', dataIndex: 'operation', scopedSlots: { customRender: 'operation' }, align: 'center', },
 ]
 
 const selectRecordColumns = [
@@ -235,10 +235,32 @@ export default {
         }
       }
     },
+    groupSearch() {
+      this.listData = JSON.parse(JSON.stringify(this.AllData))
+      this.listData = this.listData.filter(item => {
+        // cid
+        let c1 = true
+        if (this.searchValue != '') {
+          c1 = item.cid.toString().match(this.searchValue)
+        }
+        if (c1 == null) {
+          c1 = false
+        }
+
+        // type
+        let c2 = true
+        // console.log(this.searchKey) // 0 1 2
+        if (this.searchKey == '1' || this.searchKey == '2') {
+          c2 = item.type.toString().match(this.searchKey)
+        }
+
+        return c1 && c2
+      })
+    },
     inputSearchCard(e) {
       // console.log(e)
       // console.log(this.searchValue)
-      this.listData = this.AllData
+      this.listData = JSON.parse(JSON.stringify(this.AllData))
       this.listData = this.listData.filter(record => {
         return record['cid'].toString().match(this.searchValue)
       })
@@ -261,7 +283,7 @@ export default {
     getCardList() {
       this.baseAxios({
         method: 'get',
-        url: '/card/get_card_list',
+        url: '/card/get_card_listnd',
         // params
 
       }).then((response) => {

@@ -1,7 +1,6 @@
 <template>
   <div>
-    <div id="first">
-    </div>
+    <div id="first"></div>
     <div id="second">
       <!-- <a-collapse :bordered="false">
         <template #expandIcon="props">
@@ -120,9 +119,8 @@
             :columns="columns"
             :data-source="displayList"
             rowKey="deposit_id"
-            
           >
-          <!-- :scroll="{ y: '48vh' }" -->
+            <!-- :scroll="{ y: '48vh' }" -->
           </a-table>
         </a-tab-pane>
         <a-tab-pane key="2">
@@ -130,8 +128,8 @@
             <a-icon type="pie-chart" />
             图表
           </span>
-          <div id='chart-tab'>
-            <div id='myChart'></div>
+          <div id="chart-tab">
+            <div id="myChart"></div>
           </div>
         </a-tab-pane>
       </a-tabs>

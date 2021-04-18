@@ -13,7 +13,7 @@
         :style="{ width: '120px', inline: true }"
         placeholder="输入卡号"
         v-model="searchValue"
-        @change="this.inputSearchCard"
+        @change="this.groupSearch"
       >
       </a-input-search>
       <label>选择会员卡类型</label>
@@ -21,7 +21,7 @@
       <a-select
         :style="{ width: '120px' }"
         v-model="searchKey"
-        @change="searchCard"
+        @change="groupSearch"
         :default-value="searchTags[0].key"
       >
         <a-select-option
@@ -105,6 +105,7 @@
                 <a-select-option value="normal"> 正常 </a-select-option>
                 <a-select-option value="lost"> 挂失 </a-select-option>
                 <a-select-option value="deactived"> 停用 </a-select-option>
+                <a-select-option value="deleted" disabeld> 退还 </a-select-option>
               </a-select>
             </a-col>
           </a-row>

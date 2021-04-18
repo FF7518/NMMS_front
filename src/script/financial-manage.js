@@ -107,7 +107,7 @@ export default {
                 'cid': '',
                 'cardStatus': [],
                 'cardType': [],
-                'timeRange': [], // [start , end]
+                'timeRange': [0,0], // [start , end]
             },
 
         }
@@ -123,14 +123,19 @@ export default {
     methods: {
         // Echarts
 
-
+        // onDateRangePickerChange(e) {
+        //     console.log(e)
+        // },
         // 时间范围选择器时间，获取时间
         onDateRangePickerChange(date, dateString) {
-            // console.log(date, dateString)
+            // console.log(date)
             this.searchKeys.timeRange = []
-            this.searchKeys.timeRange.push(Moment(date[0]).valueOf())
-            this.searchKeys.timeRange.push(Moment(date[1]).valueOf())
-            // console.log(this.searchKeys.timeRange)
+            // console.log(date.length)
+            if (date.length > 0) {
+                this.searchKeys.timeRange.push(Moment(date[0]).valueOf())
+                this.searchKeys.timeRange.push(Moment(date[1]).valueOf())
+            } else this.searchKeys.timeRange = [0,0]
+            // console.log(this.searchKeys.timeRange[0], this.searchKeys.timeRange[1])
         },
         // tag 选择器，获取参数
         onTagTypeSelectorChange(value) {
@@ -221,16 +226,16 @@ export default {
                 按照时间范围进行检索
                 */
                 let c6 = true
-                if (this.searchKeys.timeRange[0] != undefined) {
-                    console.log(this.searchKeys.timeRange)
+                if (this.searchKeys.timeRange[0] != 0) {
+                    // console.log(this.searchKeys.timeRange)
                     c6 = (() => {
                         return Moment(item.time).valueOf() >= this.searchKeys.timeRange[0] && Moment(item.time).valueOf() <= this.searchKeys.timeRange[1]
                     })()
                 }
-                console.log('c6', c6)
+                // console.log('c6', c6)
 
 
-                return c1 && c2 && c3 && c4 && c5
+                return c1 && c2 && c3 && c4 && c5 && c6
             })
             this.displayPrepared()
         },

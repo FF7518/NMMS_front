@@ -38,6 +38,7 @@ export default {
 
   },
   created() {
+    this.$message.info('售卡管理业务')
     this.getCardList()
   },
   methods: {
@@ -140,7 +141,7 @@ export default {
         method: 'post',
         data: this.form,
       }).then((response) => {
-        // console.log(response.data)
+        console.log(response.data)
         // alert(response.data)
         if (response.data == true) {
           this.$message.success('操作成功！')
