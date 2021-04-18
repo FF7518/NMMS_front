@@ -1,0 +1,17 @@
+.demo-loadmore-list {
+    margin: 10%;
+}
+
+.cm-sale-content {
+    border-width: 2px;
+    border-style: dotted;
+    border-radius: 10px;
+    border-color: #cd6fa3a1;
+    padding: 8px;
+    margin-right: 20%;
+    margin-left: 20%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 18px;
+    text-align: center;
+}

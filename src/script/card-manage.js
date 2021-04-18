@@ -70,7 +70,7 @@ const selectRecordColumns = [
   { title: '卡号', dataIndex: 'cid', key: 'cid' },
   { title: '操作', dataIndex: 'deposit_type', key: 'deposit_type' },
   { title: '明细', dataIndex: 'amount', key: 'amount' },
-  { title: '时间', dataIndex: 'time', key: 'time' }
+  { title: '时间', dataIndex: 'time', key: 'time', width: '40%' }
 ]
 
 var listData = []
@@ -85,9 +85,9 @@ export default {
       selectRecordColumns,
       pagination: {
         onChange: page => {
-          console.log(page)
+          // console.log(page)
         },
-        pageSize: 6,
+        pageSize: 15,
       },
       searchTags: [
         {

@@ -60,6 +60,7 @@ export default {
             searchValue: '',
             searchList: '',
             AllData: '',
+            loading: false
         }
     },
     created() {
@@ -69,22 +70,40 @@ export default {
             let len = fakeData.length
             for (let i = 0; i < len; ++i) {
                 if (fakeData[i]['cid'] == cid) {
-                    this.item = fakeData[i]
-                    console.log(this.item.status)
+                    // this.item = fakeData[i]
+                    // console.log(this.item.status)
                     break
                 }
             }
         })
+        // this.item.amount = 0
     },
     mounted() {
 
     },
     methods: {
+        refreshCache() {
+            this.item = {}
+            this.addAmount = 0
+            this.searchValue = ''
+            this.searchList = ''
+            this.AllData = ''
+            this.loading = false
+        },
         submit() {
-            console.log(this.addAmount)
-            this.item.amount += this.addAmount
-            console.log(this.item.amount)
+            try {
+                this.item.amount = parseInt(this.item.amount)
+                this.loading = true
+                console.log(this.addAmount)
+                this.item.amount += this.addAmount
+                console.log(this.item.amount)
+
+            } catch (e) {
+                console.log(e)
+            }
             this.updateCardInfo()
+            this.refreshCache()
+
         },
         inputChange(value) {
             // console.log(value)
@@ -96,8 +115,20 @@ export default {
                 url: '/card/update_card_info',
                 data: this.item,
             }).then((res => {
+                this.loading = false
                 console.log(res.data)
-            }))
+                if (res.data == true) {
+                    this.$message.success('修改成功！')
+                } else {
+                    this.$message.error('修改失败！', (e) => {
+                        console.log(e)
+                    })
+                }
+            })).catch((error) => {
+                this.loading = false
+                console.error(error);
+                this.$message.error("网络异常！");
+            })
         },
         getCardInfo() {
             this.baseAxios({
@@ -131,6 +162,22 @@ export default {
             for (let i = 0; i < this.searchList.length; ++i) {
                 if (this.searchList[i]['cid'] == e) {
                     this.item = this.searchList[i]
+                    if (this.item.status == 'normal') {
+                        this.item.pre_status = '正常'
+                        this.isFreeBanButtonDisabled = true
+                        this.isBanButtonDisabled = true
+                        this.isBanSeletorDisalbed = false
+                    }
+                    else if (this.item.status == 'lost') {
+                        this.item.pre_status = '挂失'
+                    }
+                    else if (this.item.status == 'deactived') {
+                        this.item.pre_status = '停用'
+                    }
+                    else this.item.pre_status = '退还'
+                    this.item.pre_type = this.item.type == 1 ? '储值卡' : '折扣卡'
+                    this.item.pre_discount = String(this.item.discount) + ' %'
+
                     break
                 }
             }

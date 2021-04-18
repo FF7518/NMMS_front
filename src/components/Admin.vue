@@ -95,6 +95,7 @@
           <a-row :gutter="8">
             <a-col :span="24">
               <a-checkbox-group
+                :value="addAuthList"
                 :options="options"
                 @change="onAddCheckboxChange"
               >

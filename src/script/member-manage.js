@@ -150,6 +150,7 @@ export default {
             visible: false,
             childVisible: false,
             modalVisible: false,
+            
         };
     },
     created() {

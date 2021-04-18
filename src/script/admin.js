@@ -184,7 +184,7 @@ export default {
         // Add
         onButtonHandle() {
             this.addAdmin = {},
-            this.addAuthList = []
+                this.addAuthList = []
             this.isAddModalVisible = true
         },
         onAddModalSubmit() {
@@ -200,9 +200,10 @@ export default {
             }).then((res) => {
                 console.log(res.data)
                 this.getAdminList()
+                this.addAdmin = {}
+                this.addAuthList = []
             })
-            this.addAdmin = {}
-            this.addAuthList = []
+
 
             this.isAddModalVisible = false
         },

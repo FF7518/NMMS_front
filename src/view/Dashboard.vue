@@ -1,11 +1,12 @@
 <template>
   <a-layout id="components-layout-demo-side" style="height: 100%">
-    <a-layout-sider v-model="collapsed" collapsible theme="dark">
+    <a-layout-sider class="custom" v-model="collapsed" collapsible theme="dark">
       <a-affix :offset-top="8">
         <div class="logo" />
       </a-affix>
       <a-affix :offset-top="64">
         <a-menu
+          class="custom"
           theme="dark"
           :default-selected-keys="['1']"
           mode="inline"
@@ -59,8 +60,13 @@
     </a-layout-sider>
     <!-- 此处可以调整页面高度 -->
     <a-layout :style="{ height: '200vh' }">
-      <a-layout-header :style="{ position: 'fixed', zIndex: 2, width: '100%' }">
-        <router-link to="/home/content" >退出</router-link>
+      <a-layout-header
+        class="custom"
+        :style="{ position: 'fixed', zIndex: 2, width: '100%' }"
+      >
+        <div class="rlink">
+          <router-link to="/home/content">退出</router-link>
+        </div>
       </a-layout-header>
       <a-layout-content :style="{ margin: '8px 8px', marginTop: '72px' }">
         <!-- <a-breadcrumb style="margin: 16px 0">
@@ -84,10 +90,11 @@
 </template>
 <script src="@/script/dashboard.js" />
 
-<style>
+<style scoped>
 #components-layout-demo-side .logo {
   height: 32px;
-  background: rgba(255, 255, 255, 0.2);
+  width: 48px;
+  background: rgb(15, 8, 46);
   margin: 16px;
 }
 
@@ -100,5 +107,18 @@
   min-height: 70vh;
   max-height: 70vh;
   align-content: center;
+}
+
+.custom {
+  background: rgb(15, 8, 46);
+}
+
+.rlink {
+  border: 2px solid;
+  border-color: aqua;
+  position: fixed;
+  /* top: 10px; */
+  right: 25px;
+  text-align: center;
 }
 </style>
