@@ -3,7 +3,31 @@
     <!-- 功能按键 -->
     <div id="ctrl">
       <div style="margin-top: 3vh">
-        <a-button @click="onButtonHandle">+ 新建</a-button>
+        <label>搜索管理员</label>
+        <a-select
+          v-model="searchAdmin.byAdminType"
+          placeholder="关键字类型"
+          :style="{ width: '160px' }"
+        >
+          <a-select-option value="aid"> 编号 </a-select-option>
+          <a-select-option value="account"> 账号 </a-select-option>
+        </a-select>
+        <label>输入关键字</label>
+        <a-input-search
+          :style="{ width: '240px' }"
+          placeholder="管理员信息"
+          enter-button
+          v-model="searchAdmin.adminInfo"
+          @search="groupSearch"
+          @change="onInputSearchChange"
+        />
+        <a-button
+          :style="{ width: '120px' }"
+          type="primary"
+          @click="onButtonHandle"
+          >+ 新建</a-button
+        >
+        <p />
       </div>
     </div>
     <!-- 数据显示 -->
@@ -13,7 +37,11 @@
           <div class="editable-row-operations">
             <span>
               <a @click="adminSelectHandle(text, record, index)">选择</a>
-              <a @click="adminDeleteHandle(text, record, index)">删除</a>
+              <!-- <a @click="adminDeleteHandle(text, record, index)">删除</a> -->
+              <a-popconfirm title="你确定要删除该管理员吗？！" @confirm="adminDeleteHandle(text, record, index)">
+                <a-icon slot="icon" type="question-circle-o" style="color: red" />
+                <a >删除</a>
+              </a-popconfirm>
             </span>
           </div>
         </template>
@@ -110,5 +138,4 @@
 
 <script src="@/script/admin.js" />
 
-<style scoped>
-</style>
+<style scoped src="@/style/admin.css" />

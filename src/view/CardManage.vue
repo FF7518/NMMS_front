@@ -10,7 +10,7 @@
     <a-row :style="{ background: '#ffffff' }">
       <label>输入卡号</label>
       <a-input-search
-        :style="{ width: '120px', inline: true }"
+        :style="{ width: '200px', inline: true }"
         placeholder="输入卡号"
         v-model="searchValue"
         @change="this.groupSearch"
@@ -37,7 +37,7 @@
       <!-- :scroll="{ y: '50vh' }" -->
       <a-table
         bordered
-        :style="{ padding: '12px', marginLeft: '0', marginRight: '10vh' }"
+        :style="{ padding: '12px', marginLeft: '7vh', marginRight: '10vh' }"
         size="middle"
         :columns="columns"
         :data-source="listData"

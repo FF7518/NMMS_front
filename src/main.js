@@ -43,7 +43,6 @@ import {Button,
         PageHeader,
         Slider,
 
-
     } from 'ant-design-vue';
 // import 'ant-design-vue/dist/antd.css';
 

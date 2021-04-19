@@ -1,6 +1,20 @@
 import Moment from 'moment'
 import echarts from 'echarts';
 
+const tHeader = [
+    '序号',
+    '卡号',
+    '收支明细',
+    '余额',
+    '折扣',
+    '卡类型',
+    '状态',
+    '类型',
+    '操作时间',
+    '会员姓名',
+    '联系方式',
+]
+
 const columns = [
     {
         title: '序号',
@@ -107,8 +121,10 @@ export default {
                 'cid': '',
                 'cardStatus': [],
                 'cardType': [],
-                'timeRange': [0,0], // [start , end]
+                'timeRange': [0, 0], // [start , end]
             },
+            // export 2 excel
+            filename: '消费记录报表',
 
         }
     },
@@ -134,7 +150,7 @@ export default {
             if (date.length > 0) {
                 this.searchKeys.timeRange.push(Moment(date[0]).valueOf())
                 this.searchKeys.timeRange.push(Moment(date[1]).valueOf())
-            } else this.searchKeys.timeRange = [0,0]
+            } else this.searchKeys.timeRange = [0, 0]
             // console.log(this.searchKeys.timeRange[0], this.searchKeys.timeRange[1])
         },
         // tag 选择器，获取参数
@@ -308,5 +324,14 @@ export default {
                 }
             }
         },
+
+        // 按钮
+        // 导出报表
+        async onExport2Excel() {
+            // lazy loading
+            const qee = require('qf-export-excel')
+            qee(this.columns, this.displayList,'消费记录报表')
+        },
+
     }
 }

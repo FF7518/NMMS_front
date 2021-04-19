@@ -117,10 +117,10 @@ export default {
                         console.log(e)
                     })
                 }
-            })).catch((error) => {
+            })).catch((e) => {
                 this.loading = false
-                console.error(error);
-                this.$message.error("网络异常！");
+                console.error(e);
+                this.$message.error("网络异常！" + e);
             })
         },
         getCardInfo() {

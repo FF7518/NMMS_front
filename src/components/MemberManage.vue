@@ -1,12 +1,38 @@
 <template>
   <div>
-    <a-button @click="getMemberList">Test Method</a-button>
+    <!-- <a-button @click="getMemberList">Test Method</a-button> -->
     <a-tabs default-active-key="1">
+      <div slot="tabBarExtraContent" class="tarBarExtra">
+        tabBarExtraContent
+      </div>
       <a-tab-pane key="1" tab="用户列表">
+        <div class="search">
+          <label>查找类型</label>
+          <a-select
+            placeholder="按会员查找"
+            :style="{ width: '160px' }"
+            size="small"
+            v-model="searchMember.byMemberType"
+          >
+            <a-select-option value="phonenumber"> 电话 </a-select-option>
+            <a-select-option value="identity"> 身份证 </a-select-option>
+            <a-select-option value="name"> 姓名 </a-select-option>
+          </a-select>
+          <label>输入会员信息</label>
+          <a-input-search
+            size="small"
+            :style="{ width: '240px' }"
+            placeholder="请输入会员信息"
+            enter-button
+            v-model="searchMember.memberInfo"
+            @change="this.groupSearch"
+          />
+        </div>
+        <br />
         <!-- :scroll="{ y: '50vh' }" -->
         <a-table
           :columns="columns"
-          :data-source="memberList"
+          :data-source="displayList"
           bordered
           size="small"
         >
@@ -103,7 +129,7 @@
         </a-row>
       </div>
     </a-modal>
-    <!-- 抽屉2层 -->
+    <!-- 抽屉层 -->
     <a-drawer
       title="会员卡信息"
       width="640"
@@ -119,10 +145,14 @@
         :data-source="memberOwnedCardList"
         rowKey="cid"
         bordered
+        size="small"
       >
       </a-table>
       <p></p>
-      <a-button @click="showChildDrawer"> 测试 </a-button>
+      <div>
+        <!-- <a-button @click="showChildDrawer"> 测试 </a-button> -->
+      </div>
+      <a-divider orientation="left">使用记录</a-divider>
       <!-- 消费记录 -->
       <p></p>
       <!-- 可以根据卡号搜索 -->
@@ -130,6 +160,7 @@
         :columns="depositColumns"
         :data-source="depositList"
         rowKey="deposit_id"
+        size="small"
       >
       </a-table>
       <a-drawer
@@ -151,8 +182,4 @@
 <script src="@/script/member-manage.js" />
 
 
-<style scoped>
-.editable-row-operations a {
-  margin-right: 8px;
-}
-</style>
+<style scoped src="@/style/member-manage.css" />

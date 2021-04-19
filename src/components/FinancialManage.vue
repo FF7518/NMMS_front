@@ -8,6 +8,7 @@
         </template>
         <a-collapse-panel> -->
       <div id="ctrlPanel">
+        <label>充值/消费</label>
         <a-select
           placeholder="记录类型"
           size="small"
@@ -19,6 +20,7 @@
           <a-select-option value="0"> 充值 </a-select-option>
           <a-select-option value="all"> 全部 </a-select-option>
         </a-select>
+        <label>会员类型</label>
         <a-select
           placeholder="按会员查找"
           :style="{ width: '10%' }"
@@ -37,11 +39,8 @@
           @change="this.groupSearch"
           enter-button
         />
-        <a-button size="small" icon="file-excel"> 导出报表</a-button>
-        <a-button size="small" icon="dashboard"> 查看汇总</a-button>
-        <a-button size="small" icon="mail"> 发送邮件</a-button>
-        <a-button size="small" icon="compass"> 等等功能 </a-button>
         <p />
+        <label>卡号</label>
         <a-input-search
           size="small"
           :style="{ width: '160px' }"
@@ -50,6 +49,7 @@
           @change="this.groupSearch"
           enter-button
         ></a-input-search>
+        <label>卡类型</label>
         <a-select
           mode="tags"
           placeholder="按卡类型"
@@ -68,6 +68,7 @@
             <a-select-option value="2"> 折扣卡 </a-select-option>
           </a-select-opt-group>
         </a-select>
+        <label>卡状态</label>
         <a-select
           mode="tags"
           placeholder="按卡状态"
@@ -88,6 +89,8 @@
             <a-select-option value="deleted"> 退还 </a-select-option>
           </a-select-opt-group>
         </a-select>
+        <p />
+        <label>时间</label>
         <a-range-picker
           size="small"
           :placeholder="['开始日期', '结束日期']"
@@ -98,6 +101,10 @@
             }
           "
         />
+        <a-button size="small" icon="file-excel" @click="onExport2Excel"> 导出报表</a-button>
+        <a-button size="small" icon="dashboard"> 查看汇总</a-button>
+        <a-button size="small" icon="mail"> 发送邮件</a-button>
+        <a-button size="small" icon="compass"> 等等功能 </a-button>
       </div>
       <!-- </a-collapse-panel>
       </a-collapse> -->

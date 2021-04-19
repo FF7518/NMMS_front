@@ -60,8 +60,8 @@ const fakeData = [
 const columns = [
   { title: '卡号', dataIndex: 'cid', key: 'cid', scopedSlots: { customRender: 'cid' }, align: 'center', },
   { title: '余额', dataIndex: 'amount', key: 'amount', scopedSlots: { customRender: 'amount' }, align: 'center', },
-  { title: '折扣', dataIndex: 'discount', key: 'discount', scopedSlots: { customRender: 'discount' }, align: 'center', },
-  { title: '种类', dataIndex: 'type', key: 'type', scopedSlots: { customRender: 'type' }, align: 'center', },
+  { title: '折扣', dataIndex: 'pre_discount', key: 'discount', scopedSlots: { customRender: 'discount' }, align: 'center', },
+  { title: '种类', dataIndex: 'pre_type', key: 'type', scopedSlots: { customRender: 'type' }, align: 'center', },
   { title: '操作', dataIndex: 'operation', scopedSlots: { customRender: 'operation' }, align: 'center', },
 ]
 
@@ -286,18 +286,29 @@ export default {
         url: '/card/get_card_listnd',
         // params
 
-      }).then((response) => {
+      }).then((res) => {
         this.listData = []
-        console.log(response.data.length)
-        // 同步到列表
-        var listLen = response.data.length
-        for (var i = 0; i < listLen; ++i) {
-          this.listData.push({
-            cid: response.data[i]['cid'],
-            amount: response.data[i]['amount'],
-            discount: response.data[i]['discount'],
-            type: response.data[i]['type']
-          });
+
+        for (let d of res.data) {
+          // discount
+          d['pre_discount'] = d.discount.toString() + '%'
+          // card type
+          if (d.type == "1") {
+            d['pre_type'] = '储值卡'
+          } else {
+            d['pre_type'] = '折扣卡'
+          }
+          // status
+          if (d.status == 'normal') {
+            d['pre_status'] = '正常'
+          } else if (d.status == 'lost') {
+            d['pre_status'] = '挂失'
+          } else if (d.status == 'deactived') {
+            d['pre_status'] = '停用'
+          } else {
+            d['pre_status'] = '退还'
+          }
+          this.listData.push(d)
         }
         console.log(this.listData)
         this.AllData = this.listData

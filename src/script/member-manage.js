@@ -4,6 +4,7 @@ const columns = [
         dataIndex: "mid",
         with: "10%",
         scopedSlots: { customRender: "mid" },
+        align: 'center'
     },
     {
         title: "姓名",
@@ -35,30 +36,36 @@ const cardColumns = [
         title: '卡号',
         dataIndex: 'cid',
         key: 'cid',
-        scopedSlots: { customRender: 'cid' }
+        scopedSlots: { customRender: 'cid' },
+        align: 'center',
+        width: '20%'
     },
     {
         title: '余额',
         dataIndex: 'amount',
         key: 'amount',
-        scopedSlots: { customRender: 'amount' }
+        scopedSlots: { customRender: 'amount' },
+        align: 'center'
     },
     {
         title: '折扣',
-        dataIndex: 'discount',
-        key: 'discount',
-        scopedSlots: { customRender: 'discount' }
+        dataIndex: 'pre_discount',
+        key: 'pre_discount',
+        scopedSlots: { customRender: 'pre_discount' },
+        align: 'center'
     },
     {
         title: '种类',
-        dataIndex: 'type',
-        key: 'type',
-        scopedSlots: { customRender: 'type' }
+        dataIndex: 'pre_type',
+        key: 'pre_type',
+        scopedSlots: { customRender: 'pre_type' },
+        align: 'center'
     },
     {
-        title: '操作',
-        dataIndex: 'operation',
-        scopedSlots: { customRender: 'operation' }
+        title: '状态',
+        dataIndex: 'pre_status',
+        scopedSlots: { customRender: 'pre_status' },
+        align: 'center'
     },
 ]
 
@@ -135,8 +142,14 @@ export default {
     components: {},
     data() {
         return {
+            // search
+            searchMember: {
+                'byMemberType': 'aid',
+                'memberInfo': ''
+            },
             // 所有会员
             memberList: [],
+            displayList: [],
             // 当前选择的会员
             cacheItem: '',
             // 会员拥有的会员卡列表
@@ -150,13 +163,14 @@ export default {
             visible: false,
             childVisible: false,
             modalVisible: false,
-            
+
         };
     },
     created() {
         this.getMemberList()
     },
     methods: {
+        // 获取用户的消费记录
         async getDepositByMember(key) {
             this.baseAxios({
                 method: 'get',
@@ -183,6 +197,7 @@ export default {
                 }
             })
         },
+        // 获取用户列表
         async getMemberList() {
             this.baseAxios({
                 method: 'get',
@@ -190,6 +205,7 @@ export default {
             }).then((res) => {
                 console.log(res.data)
                 this.memberList = []
+
                 for (var i = 0; i < res.data.length; ++i) {
                     this.memberList.push({
                         key: res.data[i]['mid'],
@@ -200,8 +216,19 @@ export default {
                         editable: false
                     })
                 }
+                this.displayPrepared()
+            }).catch((e) => {
+                this.loading = false
+                console.error(e);
+                this.$message.error("网络异常！" + e);
             })
         },
+        // 准备数据（实际显示的） 该数据必须和memberList同步
+        displayPrepared() {
+            this.displayList = []
+            this.displayList = JSON.parse(JSON.stringify(this.memberList))
+        },
+        // 用户自己的会员卡信息
         async getMemberOwnedCardList() {
             this.baseAxios({
                 method: 'get',
@@ -210,17 +237,50 @@ export default {
             }).then((response) => {
                 this.memberOwnedCardList = []
                 var listLen = response.data.length
-                for (var i = 0; i < listLen; ++i) {
-                    this.memberOwnedCardList.push({
-                        cid: response.data[i]['cid'],
-                        amount: response.data[i]['amount'],
-                        discount: response.data[i]['discount'],
-                        type: response.data[i]['type']
-                    })
+                for (let d of response.data) {
+                    // discount
+                    d['pre_discount'] = d.discount.toString() + '%'
+                    // card type
+                    if (d.type == "1") {
+                        d['pre_type'] = '储值卡'
+                    } else {
+                        d['pre_type'] = '折扣卡'
+                    }
+                    // status
+                    if (d.status == 'normal') {
+                        d['pre_status'] = '正常'
+                    } else if (d.status == 'lost') {
+                        d['pre_status'] = '挂失'
+                    } else if (d.status == 'deactived') {
+                        d['pre_status'] = '停用'
+                    } else {
+                        d['pre_status'] = '退还'
+                    }
+                    this.memberOwnedCardList.push(d)
                 }
+            }).catch((e) => {
+                this.loading = false
+                console.error(e);
+                this.$message.error("网络异常！" + e);
             })
         },
-
+        // 搜索
+        groupSearch() {
+            this.displayPrepared()
+            this.displayList = this.displayList.filter(item => {
+                let c2 = true
+                let c2Type = this.searchMember.byMemberType
+                let c2Info = this.searchMember.memberInfo
+                if (c2Type == 'phonenumber') {
+                    c2 = item.phonenumber.toString().match(c2Info)
+                } else if (c2Type == 'identity') {
+                    c2 = item.identity.toString().match(c2Info)
+                } else if (c2Type == 'name') {
+                    c2 = item.name.toString().match(c2Info)
+                }
+                return c2
+            })
+        },
         setModalVisible() {
             this.modalVisible = false
         },
@@ -228,6 +288,7 @@ export default {
         onEdit(value) {
             // alert(JSON.stringify(value));
         },
+        // 修改用户个人信息
         updateMemberInfo() {
             console.log(this.cacheItem)
             this.baseAxios({
@@ -235,8 +296,18 @@ export default {
                 url: '/member/update_member_info',
                 data: this.cacheItem,
             }).then((res) => {
-                console.log(res.data)
-                this.getMemberList()
+                // console.log(res.data)
+                if(res.data == true) {
+                    this.$message.success('修改成功！')
+                    this.getMemberList()
+                } else {
+                    this.$message.success('修改失败！请检查是否有错误！')
+                }
+                
+            }).catch((e) => {
+                this.loading = false
+                console.error(e);
+                this.$message.error("网络异常！" + e);
             })
 
         },

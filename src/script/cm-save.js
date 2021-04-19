@@ -146,7 +146,8 @@ export default {
                         cid: response.data[i]['cid'],
                         amount: response.data[i]['amount'],
                         discount: response.data[i]['discount'],
-                        type: response.data[i]['type']
+                        type: response.data[i]['type'],
+                        status: response.data[i]['status']
                     });
                 }
                 console.log(this.searchList)
@@ -162,6 +163,7 @@ export default {
             for (let i = 0; i < this.searchList.length; ++i) {
                 if (this.searchList[i]['cid'] == e) {
                     this.item = this.searchList[i]
+                    console.log(this.item)
                     if (this.item.status == 'normal') {
                         this.item.pre_status = '正常'
                         this.isFreeBanButtonDisabled = true

@@ -12,7 +12,7 @@ const options = [
 
 const columns = [
     {
-        title: '序列号',
+        title: '编号',
         dataIndex: 'aid',
         key: 'aid',
         align: 'center',
@@ -48,6 +48,11 @@ const columns = [
 export default {
     data() {
         return {
+            // search
+            searchAdmin: {
+                'byAdminType': 'aid',
+                'adminInfo': '',
+            },
             columns,
             adminData: [],
             listData: [],
@@ -80,6 +85,10 @@ export default {
                     })
                 }
                 this.displayPrepared()
+            }).catch((e) => {
+                this.loading = false
+                console.error(e);
+                this.$message.error("网络异常！" + e);
             })
         },
         // 展示数据封装
@@ -144,6 +153,7 @@ export default {
         },
         // del
         adminDeleteHandle(text, record, index) {
+            // console.log(text ,record, index)
             this.currentAdmin = {}
             this.currentAuthList = []
             this.currentAdmin.aid = record.aid
@@ -152,9 +162,21 @@ export default {
                 url: '/admin/delete_admin_list',
                 params: { aid: this.currentAdmin.aid }
             }).then((res) => {
-                console.log(res.data)
-                this.getAdminList()
+                // console.log(res.data)
+                
+                if (res.data == true) {
+                    this.$message.success('删除成功！')
+                    this.getAdminList()
+                }
+                else {
+                    this.$message.error('删除失败！')
+                }
+            }).catch((e) => {
+                this.loading = false
+                console.error(e);
+                this.$message.error("网络异常！" + e);
             })
+
         },
         // update
         onCheckBoxChange(values) {
@@ -176,7 +198,18 @@ export default {
                 data: this.currentAdmin
             }).then((res) => {
                 // console.log(res.data)
-                this.getAdminList()
+                if (res.data == true) {
+                    this.$message.success('修改成功！')
+                    this.getAdminList()
+                }
+                else {
+                    this.$message.error('修改失败！')
+                }
+
+            }).catch((e) => {
+                this.loading = false
+                console.error(e);
+                this.$message.error("网络异常！" + e);
             })
 
             this.isInfoModalVisible = false
@@ -198,14 +231,46 @@ export default {
                 url: '/admin/insert_admin_info',
                 data: this.addAdmin
             }).then((res) => {
-                console.log(res.data)
-                this.getAdminList()
-                this.addAdmin = {}
-                this.addAuthList = []
+                // console.log(res.data)
+                if (res.data == true) {
+                    this.$message.success('新建成功！')
+                    this.getAdminList()
+                    this.addAdmin = {}
+                    this.addAuthList = []
+                } else {
+                    this.$message.error('新建失败！')
+                }
+
+            }).catch((e) => {
+                this.loading = false
+                console.error(e);
+                this.$message.error("网络异常！" + e);
             })
 
 
             this.isAddModalVisible = false
+        },
+        // search
+        groupSearch() {
+            // console.log('groupSearch')
+            this.displayPrepared()
+            this.listData = this.listData.filter(item => {
+                let c = true
+                let type = this.searchAdmin.byAdminType
+                let info = this.searchAdmin.adminInfo
+                if (type == 'aid') {
+                    c = item.aid.toString().match(info)
+                } else if (type == 'account') {
+                    c = item.account.toString().match(info)
+                }
+                return c
+            })
+        },
+        onInputSearchChange(value) {
+            // console.log(this.searchAdmin.adminInfo)
+            if (this.searchAdmin.adminInfo == '') {
+                this.displayPrepared()
+            }
         },
     }
 }
