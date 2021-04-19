@@ -13,13 +13,13 @@ export default {
       auth_sys: true,
       account: '',
       L: {},
-      time: Moment(new Date()).format('YYYY年MM月DD HH:mm:ss'),
+      time: Moment(new Date()).format('YYYY年MM月DD日 HH:mm:ss'),
     };
   },
   mounted() {
     let _this = this
     this.timer = setInterval(() => {
-      _this.time = Moment(new Date()).format('YYYY年MM月DD HH:mm:ss')
+      _this.time = Moment(new Date()).format('YYYY年MM月DD日 HH:mm:ss')
     }, 1000)
   },
   beforeDestroy() {

@@ -26,7 +26,7 @@ export default {
             this.baseAxios({
                 method: 'post',
                 url: '/admin/admin_login_check',
-                data: { 'account' : this.username, 'password' : this.password}
+                data: { 'account': this.username, 'password': this.password }
             }).then((res) => {
                 // console.log(res.data)
                 if (res.data == 0) {
@@ -38,9 +38,12 @@ export default {
                     console.log(session)
                     this.$router.push('/dashboard')
                 }
+            }).catch((error) => {
+                console.error(error);
+                this.$message.error("网络异常！" + error);
             })
         },
         // 如果成功，将信息存入cookies
-        
+
     },
 }
