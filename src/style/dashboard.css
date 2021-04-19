@@ -1,0 +1,60 @@
+#components-layout-demo-side .logo {
+    height: 32px;
+    width: 48px;
+    background: rgb(15, 8, 46);
+    margin: 16px;
+}
+
+#layout-footer {
+    height: 10vh;
+    font-size: 18px;
+}
+
+#content {
+    min-height: 70vh;
+    max-height: 70vh;
+    align-content: center;
+}
+
+.custom {
+    background: rgb(15, 8, 46);
+}
+
+.rlink {
+    /* width: 500px; */
+    /* border: 2px solid; */
+    border-color: aqua;
+    position: fixed;
+    /* top: 10px; */
+    right: 25px;
+    text-align: center;
+}
+
+.rlink .adminInfo {
+    margin-left: 20px;
+    margin-right: 20px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.85);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 16px;
+}
+
+.rlink .now {
+    text-align: center;
+    color:rgba(255, 255, 255, 0.85);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 16px;
+}
+
+.rlink .route {
+    
+    text-align: center;
+    color: rgba(222, 191, 252, 0.85);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 16px;
+    transition: all 0.5s;
+}
+
+.rlink .route :hover{
+    color:yellow;
+}

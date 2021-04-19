@@ -3,7 +3,7 @@
     <nav>
       <div class="menubar">
         <router-link to="/home" class="home">NMMS</router-link>
-        <router-link to="/dashboard" class="home">测试</router-link>
+        <!-- <router-link to="/dashboard" class="home">测试</router-link> -->
         <div class="icons">
           <div class="secondary-icons">
             <i class="icon-second">

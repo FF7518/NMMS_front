@@ -144,7 +144,7 @@ export default {
         return {
             // search
             searchMember: {
-                'byMemberType': 'aid',
+                'byMemberType': 'phonenumber',
                 'memberInfo': ''
             },
             // 所有会员

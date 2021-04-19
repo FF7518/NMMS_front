@@ -22,6 +22,7 @@
             name=""
             required=""
             @input="onPasswordInputChange"
+            @keyup.enter="submit"
           />
           <label>Password</label>
         </div>

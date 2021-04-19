@@ -1,0 +1,54 @@
+/* For demo */
+.ant-carousel>>>.slick-slide {
+    text-align: center;
+    height: 160px;
+    line-height: 160px;
+    background: #7a98d1;
+    overflow: hidden;
+}
+
+.ant-carousel>>>.slick-slide h3 {
+    color: #fff;
+}
+
+
+/* .main {
+    
+} */
+
+.main .goto .welcome {
+    height: 100%;
+    padding: 10px;
+    border-style: dashed;
+    border-width: 1px;
+    border-radius: 1px;
+    border-color: rgba(209, 74, 146, 0.774);
+    margin: 10px;
+    margin-top: 0;
+    transition: all 0.3s;
+}
+
+.main .goto .welcome:hover {
+    box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.164);
+    
+    /*设置阴影,可以自定义参数*/
+
+}
+
+.main .goto .welcome .wel-title {
+    font-size: 24px;
+    color: rgba(209, 74, 146, 0.774);
+    font-style: oblique;
+}
+
+.main .goto .welcome .wel-person {
+    /* text-align: center; */
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 18px;
+
+}
+
+.main .goto .welcome .wel-txt {
+    font-size: 16px;
+
+}

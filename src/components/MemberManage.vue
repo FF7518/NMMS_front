@@ -3,7 +3,7 @@
     <!-- <a-button @click="getMemberList">Test Method</a-button> -->
     <a-tabs default-active-key="1">
       <div slot="tabBarExtraContent" class="tarBarExtra">
-        tabBarExtraContent
+        用户总数为：{{ this.displayList.length }} 人
       </div>
       <a-tab-pane key="1" tab="用户列表">
         <div class="search">
@@ -86,7 +86,7 @@
           </template>
         </a-table>
       </a-tab-pane>
-      <a-tab-pane key="2" tab="统计"> 统计信息，用户总数等等，图表 </a-tab-pane>
+      <!-- <a-tab-pane key="2" tab="统计"> 统计信息，用户总数等等，图表 </a-tab-pane> -->
     </a-tabs>
     <!-- 模态对话框 -->
     <a-modal

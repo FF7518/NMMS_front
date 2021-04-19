@@ -1,34 +1,25 @@
 <template>
   <div id="home_content">
+    <!-- <img class="img-show" src="@/static/image/1.jpg" /> -->
     <article>
-      <h1>正文 游泳馆会员管理系统 NMMS Management System</h1>
-      <p>Powered By FF7518.2021</p>
+      <h1>游泳馆会员管理系统 NMMS </h1>
+      <h1>Natatorium Membership Management System</h1>
+      <p class="wel-txt">
+        A natatorium (plural: natatoria) is a building containing a<br />
+        swimming pool.[1] In Latin, a cella natatoria was a swimming pool<br />
+        in its own building, although it is sometimes also used to refer<br />
+        to any indoor pool even if not housed in a dedicated building<br />
+        (e.g., a pool in a school or a fitness club).[2] It will usually<br />
+        also house locker rooms, and perhaps allied activities, such as a<br />
+        diving well or facilities for water polo. Many colleges,<br />
+        universities and high schools have natatoria.<br />
+      </p>
+      <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+
+      <h2 class="footer-me">Powered By FF7518.2021</h2>
     </article>
   </div>
 </template>
 
 
-<style scoped>
-article {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  color: #c05c7e;
-  z-index: -1;
-  opacity: 0.4;
-  transition: all 0.4s ease;
-  width: 80%;
-}
-article h1 {
-  font-size: 20px;
-  font-weight: 500;
-}
-article p {
-  color: #f3826f;
-}
-article:hover {
-  opacity: 1;
-}
-</style>
+<style scoped src="@/style/home-content.css" />

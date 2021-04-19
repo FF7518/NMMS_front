@@ -109,13 +109,13 @@
       <!-- </a-collapse-panel>
       </a-collapse> -->
       <a-tabs default-active-key="1" size="small">
-        <a-tab-pane key="0">
+        <!-- <a-tab-pane key="0">
           <span slot="tab">
             <a-icon type="appstore" />
             总览
           </span>
           <div>爬</div>
-        </a-tab-pane>
+        </a-tab-pane> -->
         <a-tab-pane key="1">
           <span slot="tab">
             <a-icon type="table" />
@@ -130,7 +130,7 @@
             <!-- :scroll="{ y: '48vh' }" -->
           </a-table>
         </a-tab-pane>
-        <a-tab-pane key="2">
+        <!-- <a-tab-pane key="2">
           <span slot="tab">
             <a-icon type="pie-chart" />
             图表
@@ -138,7 +138,7 @@
           <div id="chart-tab">
             <div id="myChart"></div>
           </div>
-        </a-tab-pane>
+        </a-tab-pane> -->
       </a-tabs>
     </div>
   </div>

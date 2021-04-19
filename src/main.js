@@ -42,6 +42,7 @@ import {Button,
         Affix,
         PageHeader,
         Slider,
+        Tooltip,
 
     } from 'ant-design-vue';
 // import 'ant-design-vue/dist/antd.css';
@@ -82,6 +83,7 @@ Vue.use(Breadcrumb)
 Vue.use(Affix)
 Vue.use(PageHeader)
 Vue.use(Slider)
+Vue.use(Tooltip)
 
 Vue.prototype.$bus = new Vue()
 Vue.prototype.$message = message

@@ -4,7 +4,7 @@
       <a-affix :offset-top="8">
         <div class="logo" />
       </a-affix>
-      <a-affix :offset-top="64">
+      <a-affix :offset-top="64" :style="{ width: '100%' }">
         <a-menu
           class="custom"
           theme="dark"
@@ -44,10 +44,10 @@
             <span>消费管理</span>
             <router-link to="/dashboard/financialmanage"></router-link>
           </a-menu-item>
-          <a-menu-item key="5">
+          <a-menu-item @click="onBackToMainpage" key="5">
             <a-icon type="home" />
             <span>回到主界面</span>
-            <router-link to="/dashboard/mainpage"></router-link>
+            <!-- <router-link to="/dashboard/mainpage"></router-link> -->
           </a-menu-item>
           <!-- style="display: none" -->
           <a-menu-item key="4" :disabled="auth_sys">
@@ -59,13 +59,19 @@
       </a-affix>
     </a-layout-sider>
     <!-- 此处可以调整页面高度 -->
-    <a-layout :style="{ height: '200vh' }">
+    <a-layout :style="{ height: '180vh' }">
       <a-layout-header
         class="custom"
         :style="{ position: 'fixed', zIndex: 2, width: '100%' }"
       >
         <div class="rlink">
-          <router-link to="/home/content">退出</router-link>
+          <span class="now">时间： {{ this.time }} </span>
+          <span class="adminInfo">管理员: {{ this.account }}</span>
+          <span class="route">
+            <router-link to="/home/content"
+              ><span class="route">退出</span></router-link
+            >
+          </span>
         </div>
       </a-layout-header>
       <a-layout-content :style="{ margin: '8px 8px', marginTop: '72px' }">
@@ -88,37 +94,8 @@
     </a-layout>
   </a-layout>
 </template>
+
+
 <script src="@/script/dashboard.js" />
 
-<style scoped>
-#components-layout-demo-side .logo {
-  height: 32px;
-  width: 48px;
-  background: rgb(15, 8, 46);
-  margin: 16px;
-}
-
-#layout-footer {
-  height: 10vh;
-  font-size: 18px;
-}
-
-#content {
-  min-height: 70vh;
-  max-height: 70vh;
-  align-content: center;
-}
-
-.custom {
-  background: rgb(15, 8, 46);
-}
-
-.rlink {
-  border: 2px solid;
-  border-color: aqua;
-  position: fixed;
-  /* top: 10px; */
-  right: 25px;
-  text-align: center;
-}
-</style>
+<style scoped src="@/style/dashboard.css" />
