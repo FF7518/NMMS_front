@@ -64,6 +64,14 @@ export default {
             searchList: '',
             AllData: '',
             loading: false,
+            isDrawerVisible: false,
+            // check [lost]
+            // tab1
+            check_cid: '' ,
+            check_identity: '',
+            isLostChecked: false,
+            // tab2
+            move2cid: '',
         }
     },
     created() {
@@ -93,37 +101,71 @@ export default {
             this.searchList = ''
             this.AllData = ''
             this.loading = false
+            this.check_identity = ''
+            this.check_cid = ''
+            this.isLostChecked = false
+            this.move2cid = ''
+            this.getCardList()
         },
         submit() {
+
+            // lost 解禁的校验情况
+            if (this.item.status == 'normal' && !this.isLostChecked) {
+                console.log(this.item.status, this.isLostChecked)
+                this.$message.warning('挂失状态解禁未校验或校验失败！')
+                this.refreshCache()
+                return
+            }
+
             // console.log('更新item')
             // console.log('刷新列表')
             this.loading = true
-            console.log(this.item)
+            // console.log(this.item)
             this.updateCardInfo()
-            this.refreshCache()
+            
         },
         updateCardInfo() {
+            // 异步，在发送请求的时候，上面的refreshCache已经执行了
+            let status = this.item.status
+            let cid = this.item.cid
             this.baseAxios({
                 method: 'post',
                 url: '/card/update_card_info',
-                data: this.item,
+                data: {
+                    'cid': this.item.cid,
+                    'amount': this.item.amount,
+                    'discount': this.item.discount,
+                    'status': this.item.status,
+                    'type': this.item.type,
+                    'message': this.item.message
+                },
             }).then((res => {
                 this.loading = false
-                console.log(res.data)
+                // console.log(res.data)
                 if (res.data == true) {
+                    if (status == 'deleted') {
+                        this.$notification.open({
+                            message: '您刚刚退还了一张会员卡！',
+                            description: '会员卡号：' + String(cid) + "，您仍可以在消费记录中找到它。"
+                        })
+                    }
+
                     this.$message.success('修改成功！')
+
                 } else {
                     this.$message.error('修改失败！', (e) => {
                         console.log(e)
                     })
                 }
+                this.refreshCache()
             })).catch((e) => {
                 this.loading = false
                 console.error(e);
-                this.$message.error("网络异常！" + e);
+                this.$message.error("网络异常！" + e)
+                this.refreshCache()
             })
         },
-        getCardInfo() {
+        getCardList() {
             this.baseAxios({
                 method: 'get',
                 url: '/card/get_card_list',
@@ -131,7 +173,7 @@ export default {
 
             }).then((response) => {
                 this.searchList = []
-                console.log(response.data.length)
+                // console.log(response.data.length)
                 // 同步到列表
                 var listLen = response.data.length
                 for (var i = 0; i < listLen; ++i) {
@@ -140,17 +182,21 @@ export default {
                         amount: response.data[i]['amount'],
                         discount: response.data[i]['discount'],
                         type: response.data[i]['type'],
-                        status: response.data[i]['status']
+                        status: response.data[i]['status'],
+                        messsage: response.data[i]['message']
                     });
                 }
-                console.log(this.searchList)
+                this.searchList = this.searchList.filter((item) => {
+                    return item.status != 'deleted'
+                })
+                // console.log(this.searchList)
                 this.AllData = this.searchList
             })
 
             // this.listData = fakeData
         },
         handleChange(e) {
-            console.log(e, 'change')
+            // console.log(e, 'change')
             this.searchValue = e
             this.isFreeBanButtonDisabled = false
             this.isBanButtonDisabled = true
@@ -182,6 +228,17 @@ export default {
         // 稍微有点复杂的禁用按钮
         // 需要刷新pre_status
         onFreeBanButtonClick() {
+
+            if (this.item.status == 'lost') {
+                this.isDrawerVisible = true
+                this.isLostChecked = false
+
+                
+            } 
+            else {
+                this.isLostChecked = true
+            }
+
             this.item.status = 'normal';
             this.item.pre_status = '正常';
             this.isFreeBanButtonDisabled = true;
@@ -189,13 +246,21 @@ export default {
             this.isBanSeletorDisalbed = false
         },
         onBanButtonClick() {
+            if (this.item.amount > 0 && this.item.status == 'deleted') {
+                this.$message.error('卡内还有余额！无法执行操作！')
+                return
+            }
+
             if (this.item.status == 'lost') {
                 this.item.pre_status = '挂失'
             }
             else if (this.item.status == 'deactived') {
                 this.item.pre_status = '停用'
             }
-            else this.item.pre_status = '退还'
+            else {
+                this.item.pre_status = '退还'
+                this.$message.warning('请注意！该操作不可逆，请确认！')
+            }
             this.isFreeBanButtonDisabled = false
             this.isBanButtonDisabled = true
             this.isBanSeletorDisalbed = true
@@ -208,8 +273,38 @@ export default {
             else this.isBanButtonDisabled = true
         },
         handleSearch(e) {
-            console.log(e, 'search')
-            this.getCardInfo()
+            // console.log(e, 'search')
+            this.getCardList()
         },
+
+        // Drawer
+        onDrawerClose() {
+            this.isDrawerVisible = false
+        },
+        // check [lost]
+        onLostCheckClick() {
+            let check_cid = this.check_cid
+            let check_id = this.check_identity
+            // 检查是否对应
+            this.baseAxios({
+                method : 'get',
+                url : '/card/get_member_info',
+                params : { cid : check_cid }
+            }).then((res) => {
+                if (res.data.identity == check_id) {
+                    this.isLostChecked = true
+                    this.$message.success('校验成功！')
+                    this.isDrawerVisible = false
+                }
+                else {
+                    this.$message.warning('校验失败！请重新校验！')
+                }
+            }).catch(e => {
+                this.$message.error('网络异常！'+ e)
+            })
+        },
+        onLostMoveClick() {
+
+        }
     },
 }

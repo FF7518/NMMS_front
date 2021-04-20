@@ -129,7 +129,7 @@
               :value="addAmount"
               :min="0"
               :max="9999"
-              :step="10"
+              :step="50"
               @change="inputChange"
             />
           </a-col>

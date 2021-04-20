@@ -7,6 +7,7 @@ export default {
                 'cid': '',
                 'money': 0,
                 'amount': 0,
+                'status': '',
             },
 
         }
@@ -16,12 +17,24 @@ export default {
     },
     methods: {
         submit() {
+            let refresh = {
+                'cid': '',
+                'money': 0,
+                'amount': 0,
+                'status': '',
+            }
+            if (this.form.status != 'normal') {
+                this.$message.error('卡片状态异常！')
+                this.form = refresh   
+                return
+            }
             // console.log (parseFloat(this.form.money))
             let m = parseFloat(this.form.money)
             if (m < 0) m = 0 - m
             // m > 0
             let amount = parseFloat(this.form.amount)
-            if (this.form.money + amount < 0) {
+            // console.log(this.form)
+            if (parseFloat(this.form.money) + amount < 0) {
                 this.$message.error('卡余额不足！')
                 return
             }
@@ -44,8 +57,10 @@ export default {
                     else {
                         this.$message.error('更新失败！')
                     }
+                    // this.form = refresh 
                 }).catch((e) => {
                     this.$message.error('网络异常' + e)
+                    // this.form = refresh 
                 })
             }
         },
@@ -56,9 +71,16 @@ export default {
                     url: '/card/get_card_info',
                     params: { cid: this.form.cid }
                 }).then((res) => {
-                    console.log(res.data)
-                    this.form.amount = res.data.amount
-
+                    // console.log(res.data)
+                    if (res.data.status == 'normal') {
+                        this.form.amount = res.data.amount
+                        this.form.status = res.data.status
+                    }
+                    else {
+                        this.$message.warning('您选择的卡片不可用或不存在！')
+                        this.form.amount = 0
+                        this.form.money = 0
+                    }
                 }).catch((e) => {
                     console.log(e)
                     this.$message.error('网络异常！' + e)
@@ -84,7 +106,7 @@ export default {
     watch: {
         'form.amount': {
             handler(val, oldval) {
-                console.log(val, oldval)
+                // console.log(val, oldval)
                 // let i = document.getElementById('input-amount')
                 // // console.log(i.getAttribute('class'))
                 // if (i.classList.contains('input-amount_red')) {

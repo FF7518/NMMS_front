@@ -94,9 +94,9 @@ export default {
             try {
                 this.item.amount = parseInt(this.item.amount)
                 this.loading = true
-                console.log(this.addAmount)
+                // console.log(this.addAmount)
                 this.item.amount += this.addAmount
-                console.log(this.item.amount)
+                // console.log(this.item.amount)
 
             } catch (e) {
                 console.log(e)
@@ -110,15 +110,21 @@ export default {
             this.addAmount = value
         },
         updateCardInfo() {
+            let cid = this.item.cid
+            let amount = this.addAmount
             this.baseAxios({
                 method: 'post',
                 url: '/card/update_card_info',
                 data: this.item,
             }).then((res => {
                 this.loading = false
-                console.log(res.data)
+                // console.log(res.data)
                 if (res.data == true) {
                     this.$message.success('修改成功！')
+                    this.$notification.open({
+                        message: '操作记录！',
+                        description: '您刚刚为卡号：'+String(cid)+'的储值卡预存款'+String(amount)+'元。'
+                    })
                 } else {
                     this.$message.error('修改失败！', (e) => {
                         console.log(e)
@@ -127,10 +133,10 @@ export default {
             })).catch((error) => {
                 this.loading = false
                 console.error(error);
-                this.$message.error("网络异常！");
+                this.$message.error("网络异常！请检查信息是否填写完整！");
             })
         },
-        getCardInfo() {
+        getCardList() {
             this.baseAxios({
                 method: 'get',
                 url: '/card/get_card_list',
@@ -138,7 +144,7 @@ export default {
 
             }).then((response) => {
                 this.searchList = []
-                console.log(response.data.length)
+                // console.log(response.data.length)
                 // 同步到列表
                 var listLen = response.data.length
                 for (var i = 0; i < listLen; ++i) {
@@ -150,20 +156,24 @@ export default {
                         status: response.data[i]['status']
                     });
                 }
-                console.log(this.searchList)
+                // 只能对正常的卡和储值卡操作
+                this.searchList = this.searchList.filter((item) => {
+                    return item.status == 'normal' && item.type == '1'
+                })
+                // console.log(this.searchList)
                 this.AllData = this.searchList
             })
 
             // this.listData = fakeData
         },
         handleChange(e) {
-            console.log(e, 'change')
+            // console.log(e, 'change')
             this.searchValue = e
             // need improve
             for (let i = 0; i < this.searchList.length; ++i) {
                 if (this.searchList[i]['cid'] == e) {
                     this.item = this.searchList[i]
-                    console.log(this.item)
+                    // console.log(this.item)
                     if (this.item.status == 'normal') {
                         this.item.pre_status = '正常'
                         this.isFreeBanButtonDisabled = true
@@ -185,8 +195,8 @@ export default {
             }
         },
         handleSearch(e) {
-            console.log(e, 'search')
-            this.getCardInfo()
+            // console.log(e, 'search')
+            this.getCardList()
         },
     },
 }

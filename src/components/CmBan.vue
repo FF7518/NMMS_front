@@ -127,6 +127,46 @@
         >
           点击 解禁
         </a-button>
+        <a-drawer
+          title="挂失状态解禁验证"
+          placement="bottom"
+          :closable="true"
+          :destroyOnClose="true"
+          :visible="isDrawerVisible"
+          @close="onDrawerClose"
+        >
+          <a-tabs default-active-key="1">
+            <a-tab-pane key="1">
+              <span slot="tab">
+                <a-icon type="loading" />
+                已找回
+              </span>
+              <div :style="{ textAlign: 'center' }">
+                <span>请用键盘键入卡号</span>
+                <a-input v-model="check_cid" :style="{ width: '200px' }" />
+                <span>请用键盘键入身份证号</span>
+                <a-input v-model="check_identity" :style="{ width: '200px' }" />
+                <a-button @click="onLostCheckClick">确认</a-button>
+              </div>
+            </a-tab-pane>
+            <!-- <a-tab-pane key="2">
+              <span slot="tab">
+                <a-icon type="android" />
+                丢失，需要迁移卡片
+              </span>
+              <div :style="{ textAlign: 'center' }">
+                <span>请输入需要迁移的卡号(必须是储值卡)</span>
+                <a-input-search
+                  :style="{ width: '240px' }"
+                  enter-button="搜索"
+                />
+                <span>当前已选：</span>
+                <a-input :style="{ width: '200px' }" />
+                <a-button>确认迁移</a-button>
+              </div>
+            </a-tab-pane> -->
+          </a-tabs>
+        </a-drawer>
         <a-button
           size="large"
           :disabled="isBanButtonDisabled"
