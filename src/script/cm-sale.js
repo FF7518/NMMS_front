@@ -136,6 +136,10 @@ export default {
       console.log('submit!', this.form)
       // alert(JSON.stringify(this.form))
       // const newCard = JSON.stringify(this.form)
+      if (this.form.cid == "" || this.form.phonenumber == "") {
+        this.$message.warning('请填写相关信息！')
+        return
+      }
       this.baseAxios({
         url: '/card/insert_card_info',
         method: 'post',
