@@ -1,4 +1,14 @@
+#home_content {
+    
+    height: auto;
+
+}
+
+
 article {
+    background-image: url('../static/image/1.jpg');
+    background-size: 100% auto;
+    margin-top: 5vh;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -9,14 +19,17 @@ article {
     opacity: 0.9;
     transition: all 0.4s ease;
     width: 80%;
+    
 }
 
 article h1 {
-    font-size: 20px;
+    font-size: 24px;
     font-weight: 500;
+    color: floralwhite;
 }
 
 article p {
+    font-size: 16px;
     color: #f3826f;
 }
 

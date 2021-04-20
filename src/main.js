@@ -43,6 +43,7 @@ import {Button,
         PageHeader,
         Slider,
         Tooltip,
+        notification,
 
     } from 'ant-design-vue';
 // import 'ant-design-vue/dist/antd.css';
@@ -87,6 +88,7 @@ Vue.use(Tooltip)
 
 Vue.prototype.$bus = new Vue()
 Vue.prototype.$message = message
+Vue.prototype.$notification = notification
 
 Vue.prototype.baseAxios = baseAxios
 axios.defaults.withCredentials = true;

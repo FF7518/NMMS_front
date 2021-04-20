@@ -21,6 +21,8 @@ const MainPage = () =>
     import ('@/view/MainPage')
 const CardManage = () =>
     import ("@/view/CardManage")
+const UsersDemo = () => 
+    import ("@/view/UsersDemo")
 
 // components
 const Admin = () =>
@@ -120,6 +122,11 @@ const router = new Router({
                     component: Admin,  
                 },
             ],
+        },
+        {
+            path: "/demo",
+            name: "demo",
+            component: UsersDemo
         },
         {
             path: "*",

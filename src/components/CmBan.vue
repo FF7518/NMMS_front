@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main">
     <br />
     <div class="cm-sale-words">
       <label>请输入卡号</label>

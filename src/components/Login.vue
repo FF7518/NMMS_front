@@ -12,6 +12,7 @@
             name=""
             required=""
             @input="onUsernameInputChange"
+            @keyup.enter="submit"
           />
           <label>Username</label>
         </div>
