@@ -213,9 +213,9 @@ export default {
     showDrawer(key) {
       this.isDrawerVisible = true
       console.log(key)
-      // this.getCardInfo(key)
-      // this.getMemberInfo(key)
-      this.getMemberAndCardInfo(key)
+      this.getCardInfo(key)
+      this.getMemberInfo(key)
+      // this.getMemberAndCardInfo(key)
       this.getDepositById(key)
     },
     onDrawerClose() {

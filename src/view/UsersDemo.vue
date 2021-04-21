@@ -3,12 +3,12 @@
     <a-layout-header :style="{ position: 'fixed', zIndex: 1, width: '100%' }">
       <!-- <div class="logo" /> -->
       <router-link to="/home">
-        <a-button ghost type="link" :style="{ width: '120px'}" size="large" >
+        <a-button ghost type="link" :style="{ width: '120px' }" size="large">
           <a-icon type="rollback" />
           返回
         </a-button>
       </router-link>
-      <span :style="{ marginLeft: '80px', color : '#fff', fontSize: '16px'}">
+      <span :style="{ marginLeft: '80px', color: '#fff', fontSize: '16px' }">
         模拟用户用自己的会员卡进行充值/消费的操作
       </span>
     </a-layout-header>
@@ -30,6 +30,7 @@
           <a-col :span="12"> 使用金额（+：充值， -消费） </a-col>
           <a-col :span="12">
             <a-input
+              @keyup.enter="submit"
               @blur="onMoneyBlur"
               v-model="form.money"
               :style="{ width: '80%' }"
@@ -68,7 +69,7 @@
         <br />
       </div>
     </a-layout-content>
-    <a-layout-footer :style="{ textAlign: 'center',fontSize: '22px' }">
+    <a-layout-footer :style="{ textAlign: 'center', fontSize: '22px' }">
       NMMS Users Demo ©2021 Powered by FF7518
     </a-layout-footer>
   </a-layout>

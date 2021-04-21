@@ -8,6 +8,8 @@ export default {
                 'money': 0,
                 'amount': 0,
                 'status': '',
+                'type': '',
+                'discount' : '',
             },
 
         }
@@ -22,15 +24,22 @@ export default {
                 'money': 0,
                 'amount': 0,
                 'status': '',
+                'type': '',
+                'discount' : '',
             }
             if (this.form.status != 'normal') {
                 this.$message.error('卡片状态异常！')
                 this.form = refresh   
                 return
             }
+            if (this.form.type == '2' && this.form.money > 0) {
+                this.$message.error('无法充值！')
+                return
+            }
             // console.log (parseFloat(this.form.money))
             let m = parseFloat(this.form.money)
             if (m < 0) m = 0 - m
+            m = m * parseFloat(this.form.discount) / 100
             // m > 0
             let amount = parseFloat(this.form.amount)
             // console.log(this.form)
@@ -75,6 +84,11 @@ export default {
                     if (res.data.status == 'normal') {
                         this.form.amount = res.data.amount
                         this.form.status = res.data.status
+                        this.form.discount = res.data.discount
+                        this.form.type = res.data.type
+                        if (this.form.type == '2') {
+                            this.$message.info('请注意。该卡为折扣卡，无法充值！')
+                        }
                     }
                     else {
                         this.$message.warning('您选择的卡片不可用或不存在！')
